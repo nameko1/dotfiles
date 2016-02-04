@@ -14,6 +14,8 @@ call neobundle#begin()
 " NeoBundle 'Shougo/unite.vim'
 " NeoBundle 'ujihisa/unite-colorscheme'
 
+NeoBundle 'scrooloose/syntastic'
+
 "コメントON/OFF
 NeoBundle 'tomtom/tcomment_vim'
 
@@ -113,3 +115,7 @@ inoremap <C-u> <ESC>ui
 inoremap <C-d> <delete>
 "cntl-y でヤンク
 inoremap <C-y> <ESC>pi 
+
+"syntastic setting
+let g:syntastic_enable_signs=1
+let g:syntastic_auto_loc_list=2
