@@ -34,7 +34,7 @@ filetype plugin indent on
 set encoding=utf-8 "デフォルトエンコをutf-8に設定
 set noswapfile "swapfileを作らない
 set nowritebackup "backupfileを作らない
-set backup "バックアップしない
+set nobackup "バックアップしない
 set history=10000 "コマンド、検索パターンを記憶しておく
 
 "ビープ音を消す
@@ -96,10 +96,10 @@ nnoremap N Nzz
 inoremap {<Enter> {}<Left><CR><Left><ESC><S-o> 
 
 "emacs like なショートカット
-map! <C-a> <home>
-map! <C-e> <end>
-nnoremap <C-a> <home>
-nnoremap <C-e> <end>
+"map! <C-a> <home>
+"map! <C-e> <end>
+inoremap <C-a> <home>
+inoremap <C-e> <end>
 
 "編集モードでもコマンドモードな移動
 inoremap <C-h> <Left>
@@ -116,6 +116,10 @@ inoremap <C-d> <delete>
 "cntl-y でヤンク
 inoremap <C-y> <ESC>pi 
 
+"Syntax Check
+inoremap <C-c> <ESC>:w<Enter>:SyntasticCheck<Enter>a
+nnoremap <C-c> :w<Enter>:SyntasticCheck<Enter>
 "syntastic setting
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=2
+let g:syntastic_mode_map = {'mode': 'passive'}
