@@ -90,10 +90,10 @@ set hlsearch "highlight matches with last search pattern
 nnoremap n nzz
 nnoremap N Nzz
 
-"ショートカット
+"編集モードでのショートカット
 
 "波括弧を自動補完
-inoremap {<Enter> {}<Left><CR><Left><ESC><S-o> 
+inoremap {<Enter> {}<Left><CR><Left><ESC><S-o><Left> 
 
 "emacs like なショートカット
 "map! <C-a> <home>
