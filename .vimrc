@@ -11,7 +11,8 @@ call neobundle#begin()
 
 "インストールするプラグイン
 "ファイル開く奴
-" NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neomru.vim'
 " NeoBundle 'ujihisa/unite-colorscheme'
 
 NeoBundle 'scrooloose/syntastic'
