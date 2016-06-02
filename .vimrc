@@ -12,8 +12,34 @@ call neobundle#begin()
 "インストールするプラグイン
 "ファイル開く奴
 " NeoBundle 'Shougo/unite.vim'
+" NeoBundle 'Shougo/neomru.vim'
 " NeoBundle 'ujihisa/unite-colorscheme'
+" 入力モードで開始
+" let g:unite_enable_start_insert=1
+" バッファ一覧
+" nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
+" " ファイル一覧
+" nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+" " レジスタ一覧
+" nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
+" " 最近使用したファイル一覧
+" nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
+" " ファイルバッファ？
+" nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
+" " めちゃ便利
+" nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+" " ウィンドウを分割して開く
+" au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+" au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+" " ウィンドウを縦に分割して開く
+" au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+" au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+" " ESC2回押すと終り
+" au FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
+" au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
 
+NeoBundle 'scrooloose/nerdtree'
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
 NeoBundle 'scrooloose/syntastic'
 
 "コメントON/OFF
