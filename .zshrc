@@ -45,8 +45,12 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias -g gr='|grep'
 alias -g le='|less'
+alias -g xg='|xargs grep'
 alias vi='/usr/local/bin/vim'
 alias ll='ls -l'
 alias la='ls -a'
-alias gdb='gdb -q'
 alias restart='exec $SHELL -l'
+
+#tmux x11 setting
+echo $DISPLAY > ~/.display.txt
+alias updis='export DISPLAY=`cat ~/.display.txt`'
