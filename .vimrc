@@ -142,6 +142,8 @@ inoremap <C-u> <ESC>ui
 inoremap <C-d> <delete>
 "cntl-y でヤンク
 inoremap <C-y> <ESC>pi 
+"O で空白行を挿入
+nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
 
 "Syntax Check
 inoremap <C-c> <ESC>:w<Enter>:SyntasticCheck<Enter>a
