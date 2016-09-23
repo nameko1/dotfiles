@@ -8,7 +8,7 @@ export LANG=ja_JP.UTF-8
 
 
 #prompt
-PROMPT='%n:%~$ '
+PROMPT='%m:%~$ '
 PROMPT2="%_%% "
 SPROMPT="%r is correct? [n,y,a,e]: "
 
