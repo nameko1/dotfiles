@@ -2,7 +2,7 @@
 
 cp .vimrc ~/
 cp .zshrc ~/
-cp tmux ~/
+cp .tmux ~/
 
-mkdir -r ~/.vim/bundle
+mkdir -p ~/.vim/bundle
 git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
