@@ -55,6 +55,12 @@ call neobundle#end()
 
 filetype plugin indent on
 
+"undo
+if has('persistent_undo')
+    set undodir=/tmp
+    set undofile                                                                                                                                   
+endif
+
 "環境設定
 
 set encoding=utf-8 "デフォルトエンコをutf-8に設定
