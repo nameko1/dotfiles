@@ -4,7 +4,10 @@
 #emacs likeな操作になる
 bindkey -e
 
-export LANG=ja_JP.UTF-8
+# export LANG=ja_JP.UTF-8
+export LANG=en_US.UTF-8
+#環境に合わせて変えて
+export EDITOR=/usr/bin/vim
 
 
 #prompt
