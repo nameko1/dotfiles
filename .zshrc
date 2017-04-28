@@ -44,17 +44,29 @@ bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 function history-all { history -E 1 }
 
+#vi like な移動設定
+bindkey "^H" backward-char
+bindkey "^L" forward-char
+#clear-screenがconflictしたので^Iに変更
+bindkey "^I" clear-screen
+#単語移動設定
+bindkey "^B" backward-word
+bindkey "^W" forward-word
+
 #alias
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-alias -g gr='|grep'
+alias grep='grep --color'
+alias -g gr='|grep --color'
 alias -g le='|less'
-alias -g xg='|xargs grep'
+alias -g xg='|xargs grep --color'
 # alias vi='/usr/local/bin/vim'
 alias vi='/usr/bin/vim'
-alias ll='ls -l'
-alias la='ls -a'
+alias l='ls --color'
+alias ls='ls --color'
+alias ll='ls -l --color'
+alias la='ls -a --color'
 alias restart='exec $SHELL -l'
 
 #tmux x11 setting
