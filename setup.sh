@@ -33,14 +33,17 @@ while [[ $# > 0 ]]; do
 done
 
 if [ $tmux ];then
+    mv $HOME/.tmux.conf $HOME/.tmux.conf.old
     cp .tmux.conf $HOME
 fi
 
 if [ $vimrc ];then
+    mv $HOME/.vimrc $HOME/.vimrc
     cp .vimrc $HOME
 fi
 
 if [ $zsh ];then
+    mv $HOME/.zshrc $HOME/.zshrc
     cp .zshrc $HOME
 fi
 
