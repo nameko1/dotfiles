@@ -33,18 +33,24 @@ while [[ $# > 0 ]]; do
 done
 
 if [ $tmux ];then
-    cp .tmux.conf ~/
+    cp .tmux.conf $HOME
 fi
 
 if [ $vimrc ];then
-    cp .vimrc ~/
+    cp .vimrc $HOME
 fi
 
 if [ $zsh ];then
-    cp .zshrc .zshenv ~/
+    cp .zshrc $HOME
 fi
 
 if [ $bundle ];then
-    mkdir -p ~/.vim/bundle
-    git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+    if [ ! -e $HOME/.vim/bundle ]; then
+        mkdir -p ~/.vim/bundle
+    fi
+    if [ ! -e $HOME/.vim/bundle/neobundle.vim ]; then
+      git clone git://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
+    else
+      echo 'neobundle is already installed'
+    fi
 fi

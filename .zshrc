@@ -47,8 +47,8 @@ function history-all { history -E 1 }
 #vi like な移動設定
 bindkey "^H" backward-char
 bindkey "^L" forward-char
-#clear-screenがconflictしたので^Iに変更
-bindkey "^I" clear-screen
+#clear-screenがconflictしたので^Oに変更
+bindkey "^O" clear-screen
 #単語移動設定
 bindkey "^B" backward-word
 bindkey "^W" forward-word
@@ -67,6 +67,7 @@ alias l='ls --color'
 alias ls='ls --color'
 alias ll='ls -l --color'
 alias la='ls -a --color'
+alias lla='ls -al --color'
 alias restart='exec $SHELL -l'
 
 #tmux x11 setting

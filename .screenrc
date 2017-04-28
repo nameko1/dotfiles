@@ -1,9 +1,0 @@
-
-escape a
-defscrollback 1000
-startup_message off
-
-# logfile
-logfile '/var/log/screen/screenlog.%H.%Y%m%d-02c:%s-%n.%t.log'
-logtstamp on
-lotstamp string "\n-- SCREEN [%Y/%m/%d %02c:%s] %n:%t --\n"
