@@ -95,8 +95,8 @@ set t_Co=256
 "操作系
 set backspace=indent,eol,start "バックスペースで各種消せます
 set tabstop=8 "インデントをスペース4つ分に設定
-set softtabstop=4 "tabでのスペースの数を設定
-set shiftwidth=4 "自動インデントの各段階に使われる空白の数
+set softtabstop=2 "tabでのスペースの数を設定
+set shiftwidth=2 "自動インデントの各段階に使われる空白の数
 set expandtab "<Tab>の制御に空白文字を用いる
 set autoindent "新しい行を開始したときに、新しい行のインデントを現在行と同じ量にする
 
@@ -160,3 +160,10 @@ let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=2
 let g:syntastic_mode_map = {'mode': 'passive'}
 let g:syntastic_python_checkers = ['pylint']
+
+"OS setting
+let OSTYPE = system('uname')
+if OSTYPE == "Darwin\n"
+    nnoremap g@ :!~/Documents/lab/Tex/tex_compile.sh %<Enter>
+endif
+

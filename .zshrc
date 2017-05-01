@@ -6,8 +6,6 @@ bindkey -e
 
 # export LANG=ja_JP.UTF-8
 export LANG=en_US.UTF-8
-#環境に合わせて変えて
-export EDITOR=/usr/bin/vim
 
 
 #prompt
@@ -61,14 +59,28 @@ alias grep='grep --color'
 alias -g gr='|grep --color'
 alias -g le='|less'
 alias -g xg='|xargs grep --color'
-# alias vi='/usr/local/bin/vim'
-alias vi='/usr/bin/vim'
-alias l='ls --color'
-alias ls='ls --color'
-alias ll='ls -l --color'
-alias la='ls -a --color'
-alias lla='ls -al --color'
 alias restart='exec $SHELL -l'
+
+case ${OSTYPE} in
+    darwin*)
+        alias l='ls -G'
+        alias ls='ls -G'
+        alias ll='ls -lG'
+        alias la='ls -aG'
+        alias lla='ls -alG'
+        alias vi='/usr/local/bin/vim'
+        export EDITOR=/usr/local/bin/vim
+        ;;
+    linux*)
+        alias l='ls --color'
+        alias ls='ls --color'
+        alias ll='ls -l --color'
+        alias la='ls -a --color'
+        alias lla='ls -al --color'
+        alias vi='/usr/bin/vim'
+        export EDITOR=/usr/bin/vim
+        ;;
+esac
 
 #tmux x11 setting
 echo $DISPLAY > ~/.display.txt

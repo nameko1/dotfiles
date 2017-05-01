@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# DOTFILES=('.vimrc' '.zshrc' '.zshenv' '.tmux')
+DOT_FILES=()
+CURRNT_DIR=$(cd $(dirname $0) && pwd)
 
-# for file in ${DOTFILES[*]}
+# for file in ${DOTDOT_FILES[*]}
 # do
 #     if [ ! -s ~/$file ];then
 #         cp $file ~/
@@ -17,43 +18,60 @@
 #     esac
 # done
 
-while [[ $# > 0 ]]; do
-    case $1 in
-        -b|--bundle) 
-            bundle=true;;
-        -t|--tmux)
-            tmux=true;;
-        -v| --vim)
-            vimrc=true;;
-        -z| --zsh)
-            zsh=true;;
-        *) echo "Unknown options:' $1"
-    esac
-    shift
+while getopts btvz-: o; do
+  case "$o" in
+    -)
+      case "${OPTARG}" in
+        all)
+          DOT_FILES=('.tmux.conf .vimrc .zshrc')
+          bundle=true
+          zsh=true;;
+        bundle)
+          bundle=true;;
+        tmux)
+          DOT_FILES=('.tmux.conf' "${DOT_FILES[@]}")
+          ;;
+        vim)
+          DOT_FILES=('.vimrc' "${DOT_FILES[@]}")
+          ;;
+        zsh)
+          DOT_FILES=('.zshrc' "${DOT_FILES[@]}")
+          zsh=true;;
+      esac;;
+    b)
+      bundle=true;;
+    t)
+      DOT_FILES=('.tmux.conf' "${DOT_FILES[@]}")
+      ;;
+    v)
+      DOT_FILES=('.vimrc' "${DOT_FILES[@]}")
+      ;;
+    z)
+      DOT_FILES=('.zshrc' "${DOT_FILES[@]}")
+      zsh=true;;
+  esac
 done
 
-if [ $tmux ];then
-    mv $HOME/.tmux.conf $HOME/.tmux.conf.old
-    cp .tmux.conf $HOME
-fi
+for dotfile in "${DOT_FILES[@]}"
+do
+  mv $HOME/$dotfile $HOME/$dotfile.old
+  cp $dotfile $HOME
+done
 
-if [ $vimrc ];then
-    mv $HOME/.vimrc $HOME/.vimrc
-    cp .vimrc $HOME
-fi
-
-if [ $zsh ];then
-    mv $HOME/.zshrc $HOME/.zshrc
-    cp .zshrc $HOME
+if [ $zsh ]; then
+  if [ ! -e $CURRNT_DIR/zsh-syntax-highlighting ]; then
+  git clone git://github.com/zsh-users/zsh-syntax-highlighting.git $CURRNT_DIR/zsh-syntax-highlighting
+  fi
+  echo "source $CURRNT_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc 
 fi
 
 if [ $bundle ];then
-    if [ ! -e $HOME/.vim/bundle ]; then
-        mkdir -p ~/.vim/bundle
-    fi
-    if [ ! -e $HOME/.vim/bundle/neobundle.vim ]; then
-      git clone git://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
-    else
-      echo 'neobundle is already installed'
-    fi
+  if [ ! -e $HOME/.vim/bundle ]; then
+    mkdir -p ~/.vim/bundle
+  fi
+  if [ ! -e $HOME/.vim/bundle/neobundle.vim ]; then
+    git clone git://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
+  else
+    echo 'neobundle is already installed'
+  fi
 fi
