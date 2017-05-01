@@ -61,18 +61,23 @@ done
 
 if [ $zsh ]; then
   if [ ! -e $CURRNT_DIR/zsh-syntax-highlighting ]; then
-  git clone git@github.com/zsh-users/zsh-syntax-highlighting.git $CURRNT_DIR/zsh-syntax-highlighting
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $CURRNT_DIR/zsh-syntax-highlighting
+  else
+    echo "source $CURRNT_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc 
   fi
+
   if [ ! -e $CURRNT_DIR/fzf ]; then
-    git clone git@github.com/junegunn/fzf.git $CURRNT_DIR/fzf
+    git clone https://github.com/junegunn/fzf.git $CURRNT_DIR/fzf
     $CURRNT_DIR/fzf/install --all
+  else
+    $CURRNT_DIR/fzf/install --no-key-bindings --no-completion --update-rc
   fi
-  echo "source $CURRNT_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc 
-  $CURRNT_DIR/fzf/install --no-key-bindings --no-completion --update-rc
 fi
 
 if [ $vi ]; then
-  echo "set rtp+=$CURRNT_DIR/fzf" >> $HOME/.vimrc
+  if [ -e $CURRNT_DIR/fzf ]; then
+    echo "set rtp+=$CURRNT_DIR/fzf" >> $HOME/.vimrc
+  fi
 fi
 
 if [ $bundle ];then
@@ -80,7 +85,7 @@ if [ $bundle ];then
     mkdir -p ~/.vim/bundle
   fi
   if [ ! -e $HOME/.vim/bundle/neobundle.vim ]; then
-    git clone git@github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
+    git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
   else
     echo 'neobundle is already installed'
   fi
