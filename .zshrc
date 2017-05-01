@@ -98,6 +98,11 @@ fe() {
   [ -n "$file" ] && ${EDITOR:-vim} "$file"
 }
 
+fl() {
+  file=$(fzf --query="$1" --select-1 --exit-0)
+  [ -n "$file" ] && less "$file"
+}
+
 # cd
 fd() {
   local dir
