@@ -25,6 +25,7 @@ while getopts btvz-: o; do
         all)
           DOT_FILES=('.tmux.conf .vimrc .zshrc')
           bundle=true
+          vi=true
           zsh=true;;
         bundle)
           bundle=true;;
@@ -33,7 +34,7 @@ while getopts btvz-: o; do
           ;;
         vim)
           DOT_FILES=('.vimrc' "${DOT_FILES[@]}")
-          ;;
+          vi=true;;
         zsh)
           DOT_FILES=('.zshrc' "${DOT_FILES[@]}")
           zsh=true;;
@@ -45,7 +46,7 @@ while getopts btvz-: o; do
       ;;
     v)
       DOT_FILES=('.vimrc' "${DOT_FILES[@]}")
-      ;;
+      vi=true;;
     z)
       DOT_FILES=('.zshrc' "${DOT_FILES[@]}")
       zsh=true;;
@@ -60,9 +61,18 @@ done
 
 if [ $zsh ]; then
   if [ ! -e $CURRNT_DIR/zsh-syntax-highlighting ]; then
-  git clone git://github.com/zsh-users/zsh-syntax-highlighting.git $CURRNT_DIR/zsh-syntax-highlighting
+  git clone git@github.com/zsh-users/zsh-syntax-highlighting.git $CURRNT_DIR/zsh-syntax-highlighting
+  fi
+  if [ ! -e $CURRNT_DIR/fzf ]; then
+    git clone git@github.com/junegunn/fzf.git $CURRNT_DIR/fzf
+    $CURRNT_DIR/fzf/install --all
   fi
   echo "source $CURRNT_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc 
+  $CURRNT_DIR/fzf/install --no-key-bindings --no-completion --update-rc
+fi
+
+if [ $vi ]; then
+  echo "set rtp+=$CURRNT_DIR/fzf" >> $HOME/.vimrc
 fi
 
 if [ $bundle ];then
@@ -70,7 +80,7 @@ if [ $bundle ];then
     mkdir -p ~/.vim/bundle
   fi
   if [ ! -e $HOME/.vim/bundle/neobundle.vim ]; then
-    git clone git://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
+    git clone git@github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
   else
     echo 'neobundle is already installed'
   fi

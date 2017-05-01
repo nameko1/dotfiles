@@ -7,6 +7,10 @@ bindkey -e
 # export LANG=ja_JP.UTF-8
 export LANG=en_US.UTF-8
 
+export FZF_DEFAULT_OPTS='
+--ansi --select-1 --reverse
+--color fg:229,bg:236,hl:84,fg+:15,bg+:239,hl+:108
+--color info:108,prompt:109,spinner:108,pointer:168,marker:168'
 
 #prompt
 PROMPT='%m:%~$ '
@@ -62,26 +66,51 @@ alias -g xg='|xargs grep --color'
 alias restart='exec $SHELL -l'
 
 case ${OSTYPE} in
-    darwin*)
-        alias l='ls -G'
-        alias ls='ls -G'
-        alias ll='ls -lG'
-        alias la='ls -aG'
-        alias lla='ls -alG'
-        alias vi='/usr/local/bin/vim'
-        export EDITOR=/usr/local/bin/vim
-        ;;
-    linux*)
-        alias l='ls --color'
-        alias ls='ls --color'
-        alias ll='ls -l --color'
-        alias la='ls -a --color'
-        alias lla='ls -al --color'
-        alias vi='/usr/bin/vim'
-        export EDITOR=/usr/bin/vim
-        ;;
+  darwin*)
+    alias l='ls -G'
+    alias ls='ls -G'
+    alias ll='ls -lG'
+    alias la='ls -aG'
+    alias lla='ls -alG'
+    alias vi='/usr/local/bin/vim'
+    export EDITOR=/usr/local/bin/vim
+    ;;
+  linux*)
+    alias l='ls --color'
+    alias ls='ls --color'
+    alias ll='ls -l --color'
+    alias la='ls -a --color'
+    alias lla='ls -al --color'
+    alias vi='/usr/bin/vim'
+    export EDITOR=/usr/bin/vim
+    ;;
 esac
 
 #tmux x11 setting
 echo $DISPLAY > ~/.display.txt
 alias updis='export DISPLAY=`cat ~/.display.txt`'
+
+# fzf script
+# open vi
+fe() {
+  local file
+  file=$(fzf --query="$1" --select-1 --exit-0)
+  [ -n "$file" ] && ${EDITOR:-vim} "$file"
+}
+
+# cd
+fd() {
+  local dir
+  dir=$(find ${1:-*} -path '*/\.*' -prune \
+    -o -type d -print 2> /dev/null | fzf +m) &&
+    cd "$dir"
+}
+
+# find history
+fh() {
+  eval $(([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s | sed 's/ *[0-9]* *//')
+}
+
+fkill() {
+  ps -ef | sed 1d | fzf -m | awk '{print $2}' | xargs kill -${1:-9} 
+}
