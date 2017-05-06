@@ -18,17 +18,17 @@ CURRNT_DIR=$(cd $(dirname $0) && pwd)
 #     esac
 # done
 
-while getopts btvz-: o; do
+while getopts ptvz-: o; do
   case "$o" in
     -)
       case "${OPTARG}" in
         all)
           DOT_FILES=('.tmux.conf .vimrc .zshrc')
-          bundle=true
+          plugin=true
           vi=true
           zsh=true;;
-        bundle)
-          bundle=true;;
+        vimplugin)
+          plugin=true;;
         tmux)
           DOT_FILES=('.tmux.conf' "${DOT_FILES[@]}")
           ;;
@@ -39,8 +39,8 @@ while getopts btvz-: o; do
           DOT_FILES=('.zshrc' "${DOT_FILES[@]}")
           zsh=true;;
       esac;;
-    b)
-      bundle=true;;
+    p)
+      plugin=true;;
     t)
       DOT_FILES=('.tmux.conf' "${DOT_FILES[@]}")
       ;;
@@ -80,7 +80,7 @@ if [ $vi ]; then
   fi
 fi
 
-if [ $bundle ];then
+if [ $plugin ];then
   if [ ! -e $HOME/.vim/bundle ]; then
     mkdir -p ~/.vim/bundle
   fi
@@ -88,5 +88,15 @@ if [ $bundle ];then
     git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
   else
     echo 'neobundle is already installed'
+  fi
+
+  if [ ! -e $HOME/.vim/autoload/ ]; then
+    mkdir -p ~/.vim/autoload
+  fi
+  if [ ! -e $HOME/.vim/autoload/plug.vim ]; then
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+          https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  else
+    echo 'vim-plug is already installed'
   fi
 fi

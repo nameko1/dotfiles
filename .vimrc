@@ -1,5 +1,11 @@
 filetype plugin indent off
 
+"vim-plug
+call plug#begin()
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+call plug#end()
+
 
 "Neobundleでプラグイン管理
 if has('vim_starting')
@@ -113,6 +119,11 @@ nnoremap <C-l> <C-w>>
 nnoremap <C-k> <C-w>-
 nnoremap <C-j> <C-w>+
 
+"fzf setting
+nnoremap si :Files<Enter>
+nnoremap so :Buffers<Enter>
+nnoremap sp :Commands<Enter>
+
 "検索設定
 set ignorecase "大文字/小文字の区別なく検索する
 set smartcase "検索文字列に大文字が含まれている場合は区別して検索する
@@ -154,6 +165,7 @@ nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
 "Syntax Check
 inoremap <C-c> <ESC>:w<Enter>:SyntasticCheck<Enter>a
 nnoremap <C-c> :w<Enter>:SyntasticCheck<Enter>
+
 
 "syntastic setting
 let g:syntastic_enable_signs=1
