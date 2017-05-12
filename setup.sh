@@ -62,8 +62,10 @@ done
 if [ $zsh ]; then
   if [ ! -e $CURRNT_DIR/zsh-syntax-highlighting ]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $CURRNT_DIR/zsh-syntax-highlighting
-  else
-    echo "source $CURRNT_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc 
+  fi
+
+  if [ ! -e $CURRNT_DIR/zsh-interactive-cd ]; then
+    git clone https://github.com/changyuheng/zsh-interactive-cd.git $CURRNT_DIR/zsh-interactive-cd
   fi
 
   if [ ! -e $CURRNT_DIR/fzf ]; then
@@ -72,6 +74,8 @@ if [ $zsh ]; then
   else
     $CURRNT_DIR/fzf/install --no-key-bindings --no-completion --update-rc
   fi
+  echo "source $CURRNT_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc
+  echo "source $CURRNT_DIR/zsh-interactive-cd/zsh-interactive-cd.plugin.zsh" >> $HOME/.zshrc
 fi
 
 if [ $vi ]; then
