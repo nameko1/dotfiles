@@ -119,6 +119,8 @@ nnoremap <C-l> <C-w>>
 nnoremap <C-k> <C-w>-
 nnoremap <C-j> <C-w>+
 
+nnoremap <C-t> :tabnew
+
 "fzf setting
 nnoremap si :Files<Enter>
 nnoremap so :Buffers<Enter>
