@@ -119,7 +119,7 @@ nnoremap <C-l> <C-w>>
 nnoremap <C-k> <C-w>-
 nnoremap <C-j> <C-w>+
 
-nnoremap <C-t> :tabnew
+nnoremap <C-p> :tabnew<Enter>
 
 "fzf setting
 nnoremap si :Files<Enter>
