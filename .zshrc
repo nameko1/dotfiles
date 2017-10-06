@@ -8,9 +8,12 @@ bindkey -e
 export LANG=en_US.UTF-8
 
 export FZF_DEFAULT_OPTS='
---ansi --select-1 --reverse
---color fg:229,bg:236,hl:84,fg+:15,bg+:239,hl+:108
+--height=40%
+--ansi --select-1 --reverse 
+--color fg:229,bg:000,hl:84,fg+:15,bg+:239,hl+:108
 --color info:108,prompt:109,spinner:108,pointer:168,marker:168'
+
+export FZF_TMUX=1
 
 #prompt
 PROMPT='%m:%~$ '
@@ -94,12 +97,12 @@ alias updis='export DISPLAY=`cat ~/.display.txt`'
 # open vi
 fe() {
   local file
-  file=$(fzf --query="$1" --select-1 --exit-0)
+  file=$(fzf-tmux --query="$1" --select-1 --exit-0)
   [ -n "$file" ] && ${EDITOR:-vim} "$file"
 }
 
 fl() {
-  file=$(fzf --query="$1" --select-1 --exit-0)
+  file=$(fzf-tmux --query="$1" --select-1 --exit-0)
   [ -n "$file" ] && less "$file"
 }
 
@@ -107,17 +110,20 @@ fl() {
 fd() {
   local dir
   dir=$(find ${1:-*} -path '*/\.*' -prune \
-    -o -type d -print 2> /dev/null | fzf +m) &&
+    -o -type d -print 2> /dev/null | fzf-tmux +m) &&
     cd "$dir"
 }
 
 # find history
-fh() {
-  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
-}
+# fh() {
+#   print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf-tmux +s --tac | sed 's/ *[0-9]* *//')
+# }
+
+zle     -N     fzf-history-widget
+bindkey '^R' fzf-history-widget
 
 fkill() {
-  ps -ef | sed 1d | fzf -m | awk '{print $2}' | xargs kill -${1:-9} 
+  ps -ef | sed 1d | fzf-tmux -m | awk '{print $2}' | xargs kill -${1:-9} 
 }
 
 z() {
