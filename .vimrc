@@ -87,8 +87,15 @@ function! s:VisualCharCount()
   return l:result
 endfunction
 
-"環境設定
+function! s:FindCurrentWord()
+  let l:currentWord = expand("<cword>")
+  :echo l:currentWord
+  call fzf#run(fzf#wrap({'sink': 'tabedit', 'options': '-m -q'.l:currentWord.get(g:, 'fzf_files_option', '')}))
+endfunction
 
+nnoremap <C-o> :call <SID>FindCurrentWord()
+
+"環境設定
 set encoding=utf-8 "デフォルトエンコをutf-8に設定
 set noswapfile "swapfileを作らない
 set nowritebackup "backupfileを作らない
