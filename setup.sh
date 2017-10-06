@@ -79,6 +79,9 @@ if [ $zsh ]; then
     $CURRNT_DIR/fzf/install --no-key-bindings --no-completion --update-rc
   fi
 
+  mv ~/.vim/plugged/fzf.vim/autoload/fzf/vim.vim ~/.vim/plugged/fzf.vim/autoload/fzf/vim.vim.old
+  cp $CURRNT_DIR/customFzfVim.vim ~/.vim/plugged/fzf.vim/autoload/fzf/vim.vim
+
   echo ". $CURRNT_DIR/z/z.sh" >> $HOME/.zshrc
   echo "source $CURRNT_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc
   echo "source $CURRNT_DIR/zsh-interactive-cd/zsh-interactive-cd.plugin.zsh" >> $HOME/.zshrc
