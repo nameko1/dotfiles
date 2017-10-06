@@ -93,7 +93,6 @@ function! s:FindCurrentWord()
   call fzf#run(fzf#wrap({'sink': 'tabedit', 'options': '-m -q'.l:currentWord.get(g:, 'fzf_files_option', '')}))
 endfunction
 
-nnoremap <C-o> :call <SID>FindCurrentWord()
 
 "環境設定
 set encoding=utf-8 "デフォルトエンコをutf-8に設定
@@ -152,6 +151,8 @@ nnoremap <C-p> :tabnew<Enter>
 nnoremap si :Files<Enter>
 nnoremap so :Buffers<Enter>
 nnoremap sp :Commands<Enter>
+" カーソル下のワードをファイル名に含むファイルを検索
+nnoremap <C-o> :call <SID>FindCurrentWord()<Enter>
 
 "検索設定
 set ignorecase "大文字/小文字の区別なく検索する
