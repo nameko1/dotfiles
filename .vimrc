@@ -67,6 +67,26 @@ if has('persistent_undo')
     set undofile                                                                                                                                   
 endif
 
+"文字数カウント関数
+augroup CharCounter
+  autocmd!
+  " autocmd BufNew,BufEnter,BufWrite,InsertLeave * call <SID>Update()
+  autocmd CursorMoved,CursorMovedI * call <SID>Update()
+augroup END
+
+function! s:Update()
+  let b:charCounterCount = s:VisualCharCount()
+endfunction
+
+function! s:VisualCharCount()
+  let l:result = 0
+  for l:linenum in range(line('v'), line('.'))
+    let l:line = getline(l:linenum)
+    let l:result += strlen(substitute(l:line, ".", "x", "g"))
+  endfor
+  return l:result
+endfunction
+
 "環境設定
 
 set encoding=utf-8 "デフォルトエンコをutf-8に設定
@@ -87,7 +107,7 @@ set number "行番号を表示
 set scrolloff=5 "スクロールする際に下が見えるように
 set matchpairs& matchpairs+=<:> "対応括弧に<>を追加
 set showmatch "括弧入力時の対応する括弧を表示
-set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P "ステータス行の表示内容を設定する
+set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%{b:charCounterCount}%8l,%c%V%8P"ステータス行の表示内容を設定する
 set showcmd "入力中のステータスに表示する
 set laststatus=2 "ステータスラインを表示するウィンドウを設定する "2:常にステータスラインを表示する
 set listchars=tab:>- "listで表示される文字のフォーマットを指定する "※デフォルト eol=$ を打ち消す意味で設定
@@ -180,4 +200,3 @@ let OSTYPE = system('uname')
 if OSTYPE == "Darwin\n"
     nnoremap g@ :!~/Documents/lab/Tex/tex_compile.sh %<Enter>
 endif
-
