@@ -71,7 +71,7 @@ endif
 augroup CharCounter
   autocmd!
   " autocmd BufNew,BufEnter,BufWrite,InsertLeave * call <SID>Update()
-  autocmd CursorMoved,CursorMovedI * call <SID>Update()
+  autocmd CursorMoved,CursorMovedI,TabLeave * call <SID>Update()
 augroup END
 
 function! s:Update()
@@ -113,10 +113,40 @@ set number "行番号を表示
 set scrolloff=5 "スクロールする際に下が見えるように
 set matchpairs& matchpairs+=<:> "対応括弧に<>を追加
 set showmatch "括弧入力時の対応する括弧を表示
-set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%{b:charCounterCount}%8l,%c%V%8P"ステータス行の表示内容を設定する
+set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'} "ステータスライン左側
+set statusline+=%=[wc=%{b:charCounterCount}]%8l,%c%V%8P "ステータスライン右側
 set showcmd "入力中のステータスに表示する
 set laststatus=2 "ステータスラインを表示するウィンドウを設定する "2:常にステータスラインを表示する
 set listchars=tab:>- "listで表示される文字のフォーマットを指定する "※デフォルト eol=$ を打ち消す意味で設定
+
+" tab番号を表示する
+" Anywhere SID.
+function! s:SID_PREFIX()
+  return matchstr(expand('<sfile>'),'<SNR>\d\+_\zeSID_PREFIX$')
+endfunction
+
+" Set tabline.
+function! s:my_tabline()  "{{{
+  let s = ''
+  for i in range(1, tabpagenr('$'))
+    let bufnrs = tabpagebuflist(i)
+    let bufnr = bufnrs[tabpagewinnr(i) - 1]  " first window, first appears
+    let no = i  " display 0-origin tabpagenr.
+    let mod = getbufvar(bufnr, '&modified') ? '!' : ' '
+    let title = fnamemodify(bufname(bufnr), ':t')
+    let s .= '%'.i.'T'
+    let s .= '%#'.(i == tabpagenr() ? 'TabLineSel' : 'TabLine').'#'
+    let s .= no .':'.title
+    let s .= mod
+    let s .= '%#TabLineFill# '
+  endfor
+  let s .= '%#TabLineFill#%T%=%#TabLine#'
+  return s
+endfunction "}}}
+
+let &tabline = '%!'.s:SID_PREFIX().'my_tabline()'
+
+
 
 syntax on "シンタックスハイライト
 "let g:hybrid_use_Xresources = 1 "hybridのおまじない
@@ -145,7 +175,10 @@ nnoremap <C-l> <C-w>>
 nnoremap <C-k> <C-w>-
 nnoremap <C-j> <C-w>+
 
+"open new tab
 nnoremap <C-p> :tabnew<Enter>
+"close current tab
+nnoremap gw :tabclose<Enter>
 
 "fzf setting
 nnoremap si :Files<Enter>
