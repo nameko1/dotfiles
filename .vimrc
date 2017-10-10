@@ -114,7 +114,8 @@ set scrolloff=5 "スクロールする際に下が見えるように
 set matchpairs& matchpairs+=<:> "対応括弧に<>を追加
 set showmatch "括弧入力時の対応する括弧を表示
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'} "ステータスライン左側
-set statusline+=%=[wc=%{b:charCounterCount}]%8l,%c%V%8P "ステータスライン右側
+" set statusline+=%=[wc=%{b:charCounterCount}]%8l,%c%V%8P "ステータスライン右側
+set statusline+=%=%8l,%c%V%8P "ステータスライン右側
 set showcmd "入力中のステータスに表示する
 set laststatus=2 "ステータスラインを表示するウィンドウを設定する "2:常にステータスラインを表示する
 set listchars=tab:>- "listで表示される文字のフォーマットを指定する "※デフォルト eol=$ を打ち消す意味で設定

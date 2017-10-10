@@ -240,7 +240,7 @@ function! s:shortpath()
 endfunction
 
 function! fzf#vim#files(dir, ...)
-  let args = {'sink': 'tabedit', 'options': '-m '.get(g:, 'fzf_files_options', '')}
+  let args = {'options': '-m '.get(g:, 'fzf_files_options', '')}
   if !empty(a:dir)
     if !isdirectory(expand(a:dir))
       return s:warn('Invalid directory')
@@ -249,6 +249,7 @@ function! fzf#vim#files(dir, ...)
     let args.dir = dir
     let args.options .= ' --prompt '.shellescape(dir)
   else
+    let args.sink = 'tabedit'
     let args.options .= ' --prompt '.shellescape(s:shortpath())
   endif
 
