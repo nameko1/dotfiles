@@ -18,6 +18,7 @@ export FZF_TMUX=1
 #prompt
 PROMPT='%m:%~$ '
 PROMPT2="%_%% "
+RPROMPT=""
 SPROMPT="%r is correct? [n,y,a,e]: "
 
 #いい感じのコマンド補完
@@ -26,11 +27,31 @@ compinit
 setopt correct
 setopt auto_list
 
-#auto cd
-#autoload auto_cd
+#vcs_info loading
+autoload -Uz add-zsh-hook
+autoload -Uz vcs_info
 
-#alias ...='cd ../..'
-#alias ....='cd ../../..'
+#zstyle ':vcs_info:*' formats '(%s) [%b]'
+zstyle ':vcs_info:*' formats '[%b]'
+zstyle ':vcs_info:*' enable git hg bzr
+
+
+function _update_vcs_info_msg() {
+  local -a messages
+  local prompt
+  LANG=en_US.UTF-8 vcs_info
+
+  if [[ -z ${vcs_info_msg_0_} ]]; then
+    # vcs_info で何も取得していない場合はプロンプトを表示しない
+    prompt=""
+  else
+    [[ -n "$vcs_info_msg_0_" ]] && messages+=( "%F{green}${vcs_info_msg_0_}%f" )
+    prompt="${(j: :)messages}"
+  fi
+
+  RPROMPT="$prompt"
+}
+add-zsh-hook precmd _update_vcs_info_msg
 
 #histoy
 HISTFILE=~/.zsh_history
