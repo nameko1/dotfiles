@@ -92,9 +92,35 @@ function! s:FindCurrentWord()
   call fzf#run(fzf#wrap({'sink': 'tabedit', 'options': '-m -q'.l:currentWord.get(g:, 'fzf_files_option', '')}))
 endfunction
 
-function! s:OpenFilesWithoutTab()
-  let l:pwd = fnamemodify(getcwd(), ':~:.')
-  call fzf#vim#files(l:pwd)
+function! s:FindTab()
+  let l:buflist =  []
+  for i in range(tabpagenr('$'))
+    let l:bufnames = " "
+    let l:header = i + 1." "
+    for buf in tabpagebuflist(i + 1)
+      let l:bufnames .= fnamemodify(bufname(buf), ":t").", "
+    endfor
+    let l:bufnames = l:header.substitute(l:bufnames, ', $', '', '')
+    call add(l:buflist, l:bufnames)
+  endfor
+
+  let l:args = {'source': buflist, 'down': '40%'}
+  let l:tabNum = matchstr(fzf#run(l:args)[0], '^[0-9]\+')
+  call s:MoveTab(l:tabNum)
+endfunction
+
+function! s:MoveTab(num) 
+  let l:currentTab = tabpagenr()
+  let l:loop = 0
+  if a:num >= l:currentTab
+    let l:loop = a:num - l:currentTab
+  else
+    let l:loop = tabpagenr('$') - l:currentTab + a:num
+  endif
+
+  for l in range(l:loop)
+    tabnext
+  endfor
 endfunction
 
 
@@ -189,6 +215,11 @@ nnoremap gw :tabclose<Enter>
 nnoremap si :Files<Enter>
 nnoremap so :Buffers<Enter>
 nnoremap sp :Commands<Enter>
+nnoremap sl :Lines<Enter>
+
+" fzf tab
+nnoremap st :call <SID>FindTab()<Enter>
+
 " カーソル下のワードをファイル名に含むファイルを検索
 nnoremap <C-o> :call <SID>FindCurrentWord()<Enter>
 
