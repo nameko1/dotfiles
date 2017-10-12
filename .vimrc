@@ -186,8 +186,7 @@ nnoremap <C-p> :tabnew<Enter>
 nnoremap gw :tabclose<Enter>
 
 "fzf setting
-nnoremap si :call <SID>OpenFilesWithoutTab()<Enter>
-nnoremap st :Files<Enter>
+nnoremap si :Files<Enter>
 nnoremap so :Buffers<Enter>
 nnoremap sp :Commands<Enter>
 " カーソル下のワードをファイル名に含むファイルを検索

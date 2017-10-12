@@ -249,7 +249,6 @@ function! fzf#vim#files(dir, ...)
     let args.dir = dir
     let args.options .= ' --prompt '.shellescape(dir)
   else
-    let args.sink = 'tabedit'
     let args.options .= ' --prompt '.shellescape(s:shortpath())
   endif
 
