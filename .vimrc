@@ -105,7 +105,12 @@ function! s:FindTab()
   endfor
 
   let l:args = {'source': buflist, 'down': '40%'}
-  let l:tabNum = matchstr(fzf#run(l:args)[0], '^[0-9]\+')
+  let l:result = fzf#run(l:args)
+  if len(l:result) == 0
+    return
+  endif
+  
+  let l:tabNum = matchstr(l:result[0], '^[0-9]\+')
   call s:MoveTab(l:tabNum)
 endfunction
 
