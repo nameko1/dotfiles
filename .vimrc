@@ -127,6 +127,43 @@ function! s:MoveTab(num)
   endfor
 endfunction
 
+function! s:Lines()
+  let [display_bufnames, lines] = fzf#vim#_lines(1)
+  let nth = display_bufnames ? 3 : 2
+  let selectedbuf = fzf#run({
+  \ 'source':  lines,
+  \ 'down': '40%',
+  \ 'options': '+m --tiebreak=index --prompt "Lines> " --ansi --extended --nth='.nth.'.. --reverse --tabstop=1'
+  \})
+
+  if len(selectedbuf) == 0
+    return
+  endif
+
+  let lines = split(selectedbuf[0], '\s\+')
+  let tabpage = 0
+
+  for i in range(tabpagenr('$'))
+    for tabbuf in tabpagebuflist(i + 1)
+      if tabbuf == lines[0]
+        let tabpage = i + 1
+      endif
+    endfor
+  endfor
+
+  if tabpage != 0
+    call s:MoveTab(tabpage)
+  else
+    execute 'silent tab split' 
+    execute 'buffer' lines[0]
+  endif
+
+  execute lines[2]
+  normal! ^zz
+
+endfunction
+
+
 
 "環境設定
 set encoding=utf-8 "デフォルトエンコをutf-8に設定
@@ -219,10 +256,12 @@ nnoremap gw :tabclose<Enter>
 nnoremap si :Files<Enter>
 nnoremap so :Buffers<Enter>
 nnoremap sp :Commands<Enter>
-nnoremap sl :Lines<Enter>
 
 " fzf tab
 nnoremap st :call <SID>FindTab()<Enter>
+
+" fzf line
+nnoremap sr :call <SID>Lines()<Enter>
 
 " カーソル下のワードをファイル名に含むファイルを検索
 nnoremap <C-o> :call <SID>FindCurrentWord()<Enter>
