@@ -92,37 +92,36 @@ function! s:FindCurrentWord()
   call fzf#run(fzf#wrap({'sink': 'tabedit', 'options': '-m -q'.l:currentWord.get(g:, 'fzf_files_option', '')}))
 endfunction
 
-function! s:FindTab()
+function! s:GetAllTabBuf()
   let l:buflist =  []
   for i in range(tabpagenr('$'))
-    let l:bufnames = " "
     let l:header = i + 1." "
+    if i < 9
+      let l:header = " ".l:header
+    endif
+    let l:bufnames = " "
     for buf in tabpagebuflist(i + 1)
       let l:bufnames .= fnamemodify(bufname(buf), ":t").", "
     endfor
-    let l:bufnames = l:header.substitute(l:bufnames, ', $', '', '')
-    call add(l:buflist, l:bufnames)
+    call add(l:buflist, l:header.substitute(l:bufnames, ', $', '', ''))
   endfor
+  return l:buflist
+endfunction
 
-  let l:args = {'source': buflist, 'down': '40%'}
-  let l:result = fzf#run(l:args)
+function! s:FindTab()
+  let l:result = fzf#run({'source': s:GetAllTabBuf(), 'down': '40%'})
   if len(l:result) == 0
     return
   endif
-  
-  let l:tabNum = matchstr(l:result[0], '^[0-9]\+')
-  call s:MoveTab(l:tabNum)
+  call s:MoveTab(substitute(matchstr(l:result[0], '^\s\?[0-9]\+'), '^\s', '',''))
 endfunction
 
 function! s:MoveTab(num) 
   let l:currentTab = tabpagenr()
-  let l:loop = 0
-  if a:num >= l:currentTab
-    let l:loop = a:num - l:currentTab
-  else
-    let l:loop = tabpagenr('$') - l:currentTab + a:num
+  let l:loop = a:num - l:currentTab
+  if a:num <= l:currentTab
+    let l:loop = tabpagenr('$') + l:loop
   endif
-
   for l in range(l:loop)
     tabnext
   endfor
