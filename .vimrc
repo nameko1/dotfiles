@@ -89,7 +89,7 @@ endfunction
 
 function! s:FindCurrentWord()
   let l:currentWord = expand("<cword>")
-  call fzf#run(fzf#wrap({'sink': 'tabedit', 'options': '-m -q'.l:currentWord.get(g:, 'fzf_files_option', '')}))
+  call fzf#run(fzf#wrap({'options': '-m -q'.l:currentWord.get(g:, 'fzf_files_option', '')}))
 endfunction
 
 function! s:GetAllTabBuf()
@@ -127,13 +127,17 @@ function! s:MoveTab(num)
   endfor
 endfunction
 
-function! s:Lines()
+function! s:Lines(...)
   let [display_bufnames, lines] = fzf#vim#_lines(1)
   let nth = display_bufnames ? 3 : 2
+  let [query, args] = (a:0 && type(a:1) == type('')) ?
+        \ [a:1, a:000[1:]] : ['', a:000]
+  let query = '--query '.shellescape(query)
+
   let selectedbuf = fzf#run({
   \ 'source':  lines,
   \ 'down': '40%',
-  \ 'options': '+m --tiebreak=index --prompt "Lines> " --ansi --extended --nth='.nth.'.. --reverse --tabstop=1'
+  \ 'options': '+m --tiebreak=index --prompt "Lines> " --ansi --extended --nth='.nth.'.. --reverse --tabstop=1 '.query
   \})
 
   if len(selectedbuf) == 0
@@ -261,6 +265,7 @@ nnoremap sp :Commands<Enter>
 nnoremap st :call <SID>FindTab()<Enter>
 
 " fzf line
+command! -nargs=1 L call <SID>Lines(<f-args>)
 nnoremap sr :call <SID>Lines()<Enter>
 
 " カーソル下のワードをファイル名に含むファイルを検索
