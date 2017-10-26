@@ -46,7 +46,7 @@ call neobundle#begin()
 
 NeoBundle 'scrooloose/nerdtree'
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
-NeoBundle 'scrooloose/syntastic'
+" NeoBundle 'scrooloose/syntastic'
 
 "コメントON/OFF
 NeoBundle 'tomtom/tcomment_vim'
@@ -310,16 +310,16 @@ inoremap <C-y> <ESC>pi
 nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
 
 "Syntax Check
-inoremap <C-c> <ESC>:w<Enter>:SyntasticCheck<Enter>a
-nnoremap <C-c> :w<Enter>:SyntasticCheck<Enter>
+" inoremap <C-c> <ESC>:w<Enter>:SyntasticCheck<Enter>a
+" nnoremap <C-c> :w<Enter>:SyntasticCheck<Enter>
 
 
 "syntastic setting
-let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list=2
-let g:syntastic_mode_map = {'mode': 'passive'}
-let g:syntastic_python_checkers = ['pylint']
-
+" let g:syntastic_enable_signs=1
+" let g:syntastic_auto_loc_list=2
+" let g:syntastic_mode_map = {'mode': 'passive'}
+" let g:syntastic_python_checkers = ['pylint']
+"
 "OS setting
 let OSTYPE = system('uname')
 if OSTYPE == "Darwin\n"
