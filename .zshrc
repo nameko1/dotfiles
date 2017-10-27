@@ -9,7 +9,7 @@ export LANG=en_US.UTF-8
 
 export FZF_DEFAULT_OPTS='
 --height=40%
---ansi --select-1 --reverse 
+--ansi --exit-0 --reverse 
 --color fg:229,bg:000,hl:84,fg+:15,bg+:239,hl+:108
 --color info:108,prompt:109,spinner:108,pointer:168,marker:168'
 
@@ -69,6 +69,10 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 function history-all { history -E 1 }
+
+# find history
+zle     -N     fzf-history-widget
+bindkey '^R' fzf-history-widget
 
 #vi like な移動設定
 bindkey "^H" backward-char
@@ -131,34 +135,27 @@ fl() {
 fd() {
   local dir
   dir=$(find ${1:-*} -path '*/\.*' -prune \
-    -o -type d -print 2> /dev/null | fzf-tmux +m) &&
+    -o -type d -print 2> /dev/null | fzf-tmux +m --select-1) &&
     cd "$dir"
 }
 
-# find history
-# fh() {
-#   print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf-tmux +s --tac | sed 's/ *[0-9]* *//')
-# }
-
-zle     -N     fzf-history-widget
-bindkey '^R' fzf-history-widget
 
 fkill() {
   ps -ef | sed 1d | fzf-tmux -m | awk '{print $2}' | xargs kill -${1:-9} 
 }
 
-z() {
-  if [[ -z "$*" ]]; then
-    cd "$(_z -l 2>&1 | fzf +s --tac | sed 's/^[0-9,.]* *//')"
-  else
-    _last_z_args="$@"
-    _z "$@"
-  fi
-}
-
-zz() {
-  cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf -q "$_last_z_args")"
-}
+# z() {
+#   if [[ -z "$*" ]]; then
+#     cd "$(_z -l 2>&1 | fzf +s --tac | sed 's/^[0-9,.]* *//')"
+#   else
+#     _last_z_args="$@"
+#     _z "$@"
+#   fi
+# }
+#
+# zz() {
+#   cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf -q "$_last_z_args")"
+# }
 
 # fs [FUZZY PATTERN] - Select selected tmux session
 #   - Bypass fuzzy finder if there's only one match (--select-1)
@@ -169,3 +166,23 @@ fs() {
     fzf --query="$1" --select-1 --exit-0) &&
     tmux switch-client -t "$session"
 }
+
+fadd() {
+  # valiables 
+  local query addfiles fzfout filenum
+  
+  while fzfout=$(
+    git status --short | 
+    awk '{if (substr($0,2,1) !~ / /) print $2}' | fzf-tmux --multi --exit-0 --expect=ctrl-d); do
+    query=$(head -1 <<< "$fzfout")
+    filenum=$[$(wc -l <<< "$fzfout") - 1]
+    addfiles=(`echo $(tail -n "$filenum" <<< "$fzfout")`)
+
+    if [ "${query:-Enter}" = "ctrl-d" ]; then
+      git diff --color=always $addfiles | less -R
+    else
+      git add $addfiles
+      print "add this file(s) -> "$addfiles
+    fi
+  done
+  }
