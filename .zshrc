@@ -135,7 +135,7 @@ fl() {
 fd() {
   local dir
   dir=$(find ${1:-*} -path '*/\.*' -prune \
-    -o -type d -print 2> /dev/null | fzf-tmux +m --select-1) &&
+    -o -type d -print 2> /dev/null | fzf-tmux +m --select-1 --query="'") &&
     cd "$dir"
 }
 
