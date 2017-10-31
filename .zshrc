@@ -16,7 +16,7 @@ export FZF_DEFAULT_OPTS='
 export FZF_TMUX=1
 
 #prompt
-PROMPT='%m:%~$ '
+PROMPT='nameko:%~$ '
 PROMPT2="%_%% "
 RPROMPT=""
 SPROMPT="%r is correct? [n,y,a,e]: "

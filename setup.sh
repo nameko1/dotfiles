@@ -68,9 +68,9 @@ if [ $zsh ]; then
     git clone https://github.com/changyuheng/zsh-interactive-cd.git $CURRNT_DIR/zsh-interactive-cd
   fi
 
-  if [ ! -e $CURRNT_DIR/z ]; then
-    git clone https://github.com/rupa/z.git $CURRNT_DIR/z
-  fi
+  # if [ ! -e $CURRNT_DIR/z ]; then
+  #   git clone https://github.com/rupa/z.git $CURRNT_DIR/z
+  # fi
 
   if [ ! -e $CURRNT_DIR/fzf ]; then
     git clone https://github.com/junegunn/fzf.git $CURRNT_DIR/fzf
@@ -79,10 +79,8 @@ if [ $zsh ]; then
     $CURRNT_DIR/fzf/install --no-key-bindings --no-completion --update-rc
   fi
 
-  mv ~/.vim/plugged/fzf.vim/autoload/fzf/vim.vim ~/.vim/plugged/fzf.vim/autoload/fzf/vim.vim.old
-  cp $CURRNT_DIR/customFzfVim.vim ~/.vim/plugged/fzf.vim/autoload/fzf/vim.vim
 
-  echo ". $CURRNT_DIR/z/z.sh" >> $HOME/.zshrc
+  # echo ". $CURRNT_DIR/z/z.sh" >> $HOME/.zshrc
   echo "source $CURRNT_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc
   echo "source $CURRNT_DIR/zsh-interactive-cd/zsh-interactive-cd.plugin.zsh" >> $HOME/.zshrc
   echo "source ~/.fzf/shell/key-bindings.zsh" >> $HOME/.zshrc
@@ -92,6 +90,8 @@ if [ $vi ]; then
   if [ -e $CURRNT_DIR/fzf ]; then
     echo "set rtp+=$CURRNT_DIR/fzf" >> $HOME/.vimrc
   fi
+     # mv ~/.vim/plugged/fzf.vim/autoload/fzf/vim.vim ~/.vim/plugged/fzf.vim/autoload/fzf/vim.vim.old
+     # cp $CURRNT_DIR/customFzfVim.vim ~/.vim/plugged/fzf.vim/autoload/fzf/vim.vim
 fi
 
 if [ $plugin ];then
