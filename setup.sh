@@ -76,14 +76,14 @@ if [ $zsh ]; then
     git clone https://github.com/junegunn/fzf.git $CURRNT_DIR/fzf
     $CURRNT_DIR/fzf/install --all
   else
-    $CURRNT_DIR/fzf/install --no-key-bindings --no-completion --update-rc
+    $CURRNT_DIR/fzf/install --key-bindings --no-completion --update-rc
   fi
 
 
   # echo ". $CURRNT_DIR/z/z.sh" >> $HOME/.zshrc
   echo "source $CURRNT_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc
   echo "source $CURRNT_DIR/zsh-interactive-cd/zsh-interactive-cd.plugin.zsh" >> $HOME/.zshrc
-  echo "source ~/.fzf/shell/key-bindings.zsh" >> $HOME/.zshrc
+  # echo "source ~/.fzf/shell/key-bindings.zsh" >> $HOME/.zshrc
 fi
 
 if [ $vi ]; then
