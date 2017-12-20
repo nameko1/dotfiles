@@ -1,0 +1,26 @@
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
+'''
+
+[[plugins]]
+repo = 'tomtom/tcomment_vim'
+
+[[plugins]]
+repo = 'tomasr/molokai'
+
+[[plugins]]
+repo = 'w0ng/vim-hybrid'
+
+[[plugins]]
+repo = 'rhysd/clever-f.vim'
+
+[[plugins]]
+repo = 'junegunn/fzf'
+build = './install --all'
+marged = 0
+
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+depends = 'junegunn/fzf'
