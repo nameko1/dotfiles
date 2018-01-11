@@ -1,70 +1,42 @@
 filetype plugin indent off
 
-"vim-plug
-call plug#begin()
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-call plug#end()
+let s:dein_dir = expand('~/.vim/dein')
+let s:dein = s:dein_dir . '/dein.vim'
 
+"tomlファイルの場所
+let s:toml_dir = expand('~/.vim/toml')
+let s:toml = s:toml_dir . '/dein.toml'
 
-"Neobundleでプラグイン管理
+"Deinがなければインストールする
 if has('vim_starting')
-set runtimepath+=~/.vim/bundle/neobundle.vim/
+  if !isdirectory(s:dein_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein
+  endif
+  set runtimepath+=~/.vim/dein/dein.vim/
 endif
 
-"NeoBundleの初期化
-call neobundle#begin()
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
 
-"インストールするプラグイン
-"ファイル開く奴
-" NeoBundle 'Shougo/unite.vim'
-" NeoBundle 'Shougo/neomru.vim'
-" NeoBundle 'ujihisa/unite-colorscheme'
-" 入力モードで開始
-" let g:unite_enable_start_insert=1
-" バッファ一覧
-" nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
-" " ファイル一覧
-" nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-" " レジスタ一覧
-" nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
-" " 最近使用したファイル一覧
-" nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
-" " ファイルバッファ？
-" nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
-" " めちゃ便利
-" nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
-" " ウィンドウを分割して開く
-" au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-" au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-" " ウィンドウを縦に分割して開く
-" au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-" au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-" " ESC2回押すと終り
-" au FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
-" au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
+  "設定ファイルの読み込み
+  call dein#load_toml(s:toml)
 
-NeoBundle 'scrooloose/nerdtree'
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
-" NeoBundle 'scrooloose/syntastic'
+  "設定終わり
+  call dein#end()
+  call dein#save_state()
+endif
 
-"コメントON/OFF
-NeoBundle 'tomtom/tcomment_vim'
-
-"colorchema
-"molokai
-NeoBundle 'tomasr/molokai'
-"hybrid
-NeoBundle 'w0ng/vim-hybrid'
-
-call neobundle#end()
+"未インストールがあればいれる
+if dein#check_install()
+  call dein#install()
+endif
 
 filetype plugin indent on
 
 "undo
 if has('persistent_undo')
-    set undodir=/tmp
-    set undofile                                                                                                                                   
+  set undodir=/tmp
+  set undofile
 endif
 
 "文字数カウント関数
@@ -91,6 +63,13 @@ function! s:FindCurrentWord()
   let l:currentWord = expand("<cword>")
   call fzf#run(fzf#wrap({'options': '-m -q'.l:currentWord.get(g:, 'fzf_files_option', '')}))
 endfunction
+
+
+" ROOTに存在するfileのテキスト検索かけるスクリプト
+function! s:FindFileContainText(...)
+  find -name '*.java'f
+endfunction
+
 
 function! s:GetAllTabBuf()
   let l:buflist =  []
@@ -287,8 +266,6 @@ nnoremap N Nzz
 inoremap {<Enter> {}<Left><CR><Left><ESC><S-o><Left> 
 
 "emacs like なショートカット
-"map! <C-a> <home>
-"map! <C-e> <end>
 inoremap <C-a> <home>
 inoremap <C-e> <end>
 
@@ -312,7 +289,6 @@ nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
 "Syntax Check
 " inoremap <C-c> <ESC>:w<Enter>:SyntasticCheck<Enter>a
 " nnoremap <C-c> :w<Enter>:SyntasticCheck<Enter>
-
 
 "syntastic setting
 " let g:syntastic_enable_signs=1

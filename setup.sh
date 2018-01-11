@@ -3,32 +3,14 @@
 DOT_FILES=()
 CURRNT_DIR=$(cd $(dirname $0) && pwd)
 
-# for file in ${DOTDOT_FILES[*]}
-# do
-#     if [ ! -s ~/$file ];then
-#         cp $file ~/
-#     fi
-# done
-
-# while getopts f: o; do
-#     case $o in
-#         f)
-#             echo $OPTARG ;;
-#         /?) exit 1;;
-#     esac
-# done
-
 while getopts ptvz-: o; do
   case "$o" in
     -)
       case "${OPTARG}" in
         all)
           DOT_FILES=('.tmux.conf .vimrc .zshrc')
-          plugin=true
           vi=true
           zsh=true;;
-        vimplugin)
-          plugin=true;;
         tmux)
           DOT_FILES=('.tmux.conf' "${DOT_FILES[@]}")
           ;;
@@ -39,8 +21,6 @@ while getopts ptvz-: o; do
           DOT_FILES=('.zshrc' "${DOT_FILES[@]}")
           zsh=true;;
       esac;;
-    p)
-      plugin=true;;
     t)
       DOT_FILES=('.tmux.conf' "${DOT_FILES[@]}")
       ;;
@@ -68,49 +48,14 @@ if [ $zsh ]; then
     git clone https://github.com/changyuheng/zsh-interactive-cd.git $CURRNT_DIR/zsh-interactive-cd
   fi
 
-  # if [ ! -e $CURRNT_DIR/z ]; then
-  #   git clone https://github.com/rupa/z.git $CURRNT_DIR/z
-  # fi
-
-  if [ ! -e $CURRNT_DIR/fzf ]; then
-    git clone https://github.com/junegunn/fzf.git $CURRNT_DIR/fzf
-    $CURRNT_DIR/fzf/install --all
-  else
-    $CURRNT_DIR/fzf/install --key-bindings --no-completion --update-rc
-  fi
-
-
-  # echo ". $CURRNT_DIR/z/z.sh" >> $HOME/.zshrc
   echo "source $CURRNT_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc
   echo "source $CURRNT_DIR/zsh-interactive-cd/zsh-interactive-cd.plugin.zsh" >> $HOME/.zshrc
   # echo "source ~/.fzf/shell/key-bindings.zsh" >> $HOME/.zshrc
 fi
 
 if [ $vi ]; then
-  if [ -e $CURRNT_DIR/fzf ]; then
-    echo "set rtp+=$CURRNT_DIR/fzf" >> $HOME/.vimrc
+  if [ ! -e $HOME/.vim/toml ]; then
+    mkdir -p ~/.vim/toml
   fi
-     # mv ~/.vim/plugged/fzf.vim/autoload/fzf/vim.vim ~/.vim/plugged/fzf.vim/autoload/fzf/vim.vim.old
-     # cp $CURRNT_DIR/customFzfVim.vim ~/.vim/plugged/fzf.vim/autoload/fzf/vim.vim
-fi
-
-if [ $plugin ];then
-  if [ ! -e $HOME/.vim/bundle ]; then
-    mkdir -p ~/.vim/bundle
-  fi
-  if [ ! -e $HOME/.vim/bundle/neobundle.vim ]; then
-    git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
-  else
-    echo 'neobundle is already installed'
-  fi
-
-  if [ ! -e $HOME/.vim/autoload/ ]; then
-    mkdir -p ~/.vim/autoload
-  fi
-  if [ ! -e $HOME/.vim/autoload/plug.vim ]; then
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-          https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  else
-    echo 'vim-plug is already installed'
-  fi
+  cp -f ./dein.toml $HOME/.vim/toml/
 fi
