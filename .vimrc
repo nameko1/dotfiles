@@ -233,7 +233,7 @@ nnoremap <C-j> <C-w>+
 "open new tab
 nnoremap <C-p> :tabnew<Enter>
 "close current tab
-nnoremap gw :tabclose<Enter>
+nnoremap gw :tabclose<Enter> gT
 
 "fzf setting
 nnoremap si :Files<Enter>
