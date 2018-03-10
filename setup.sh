@@ -9,7 +9,7 @@ while getopts tvz-: o; do
     -)
       case "${OPTARG}" in
         all)
-          DOT_FILES=('.tmux.conf .vimrc .zshrc')
+          DOT_FILES=('.tmux.conf' '.vimrc' '.zshrc')
           vi=true
           zsh=true;;
         home)
@@ -46,7 +46,7 @@ do
   if [ -e $HOME/$dotfile ]; then
     mv $HOME/$dotfile $HOME/$dotfile.old
   fi
-  cp $dotfile $HOME
+  cp $CURRENT_DIR/$dotfile $HOME
 done
 
 if [ $zsh ]; then
@@ -62,7 +62,6 @@ if [ $zsh ]; then
   echo "source $CURRENT_DIR/zsh-interactive-cd/zsh-interactive-cd.plugin.zsh" >> $HOME/.zshrc
   echo "source $HOME/.fzf.zsh" >> $HOME/.zshrc
   # echo "source ~/.fzf/shell/key-bindings.zsh" >> $HOME/.zshrc
-  source $HOME/.zshrc
 fi
 
 if [ $vi ]; then
