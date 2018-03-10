@@ -52,6 +52,7 @@ if [ $zsh ]; then
   echo "source $CURRNT_DIR/zsh-interactive-cd/zsh-interactive-cd.plugin.zsh" >> $HOME/.zshrc
   echo "source ~/.fzf.zsh" >> $HOME/.zshrc
   # echo "source ~/.fzf/shell/key-bindings.zsh" >> $HOME/.zshrc
+  source ~/.zshrc
 fi
 
 if [ $vi ]; then
