@@ -92,6 +92,8 @@ alias -g gr='|grep --color'
 alias -g le='|less'
 alias -g xg='|xargs grep --color'
 alias restart='exec $SHELL -l'
+alias vi='/usr/bin/vim'
+export EDITOR=/usr/bin/vim
 
 case ${OSTYPE} in
   darwin*)
@@ -100,8 +102,6 @@ case ${OSTYPE} in
     alias ll='ls -lG'
     alias la='ls -aG'
     alias lla='ls -alG'
-    alias vi='/usr/local/bin/vim'
-    export EDITOR=/usr/local/bin/vim
     ;;
   linux*)
     alias l='ls --color'
@@ -109,8 +109,6 @@ case ${OSTYPE} in
     alias ll='ls -l --color'
     alias la='ls -a --color'
     alias lla='ls -al --color'
-    alias vi='/usr/bin/vim'
-    export EDITOR=/usr/bin/vim
     ;;
 esac
 
