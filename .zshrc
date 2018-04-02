@@ -18,7 +18,7 @@ export FZF_TMUX=1
 #prompt
 PROMPT='nameko:%~$ '
 if [[ -n $VIMRUNTIME  ]];then
-    PROMPT='vimshell:%~$'
+    PROMPT='vimshell:%~$ '
 fi
 PROMPT2="%_%% "
 RPROMPT=""
