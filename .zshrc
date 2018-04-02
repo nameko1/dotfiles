@@ -17,6 +17,9 @@ export FZF_TMUX=1
 
 #prompt
 PROMPT='nameko:%~$ '
+if [[ -n $VIMRUNTIME  ]];then
+    PROMPT='vimshell:%~$'
+fi
 PROMPT2="%_%% "
 RPROMPT=""
 SPROMPT="%r is correct? [n,y,a,e]: "
@@ -34,6 +37,7 @@ autoload -Uz vcs_info
 #zstyle ':vcs_info:*' formats '(%s) [%b]'
 zstyle ':vcs_info:*' formats '[%b]'
 zstyle ':vcs_info:*' enable git hg bzr
+
 
 
 function _update_vcs_info_msg() {
