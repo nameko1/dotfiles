@@ -263,7 +263,7 @@ nnoremap N Nzz
 "編集モードでのショートカット
 
 "波括弧を自動補完
-inoremap {<Enter> {}<Left><CR><Left><ESC><S-o><Left> 
+inoremap {<Enter> {}<Left><CR><Left><ESC><S-o><Left>
 
 "emacs like なショートカット
 inoremap <C-a> <home>
