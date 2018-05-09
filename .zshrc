@@ -97,8 +97,9 @@ alias -g gr='|grep --color'
 alias -g le='|less'
 alias -g xg='|xargs grep --color'
 alias restart='exec $SHELL -l'
-alias vi='/usr/bin/vim'
-export EDITOR=/usr/bin/vim
+
+# alias vi='/usr/bin/vim'
+# export EDITOR=/usr/bin/vim
 
 case ${OSTYPE} in
   darwin*)
@@ -120,6 +121,8 @@ esac
 #tmux x11 setting
 echo $DISPLAY > ~/.display.txt
 alias updis='export DISPLAY=`cat ~/.display.txt`'
+
+source ~/.zshrc_local
 
 # fzf script
 # open vi
@@ -188,4 +191,4 @@ fadd() {
       print "add this file(s) -> "$addfiles
     fi
   done
-  }
+}

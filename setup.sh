@@ -50,6 +50,11 @@ do
 done
 
 if [ $zsh ]; then
+  # create local setting file
+  if [ ! -e $HOME/.zshrc_local ]; then
+    touch $HOME/.zshrc_local
+  fi
+
   if [ ! -e $CURRENT_DIR/zsh-syntax-highlighting ]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $CURRENT_DIR/zsh-syntax-highlighting
   fi
