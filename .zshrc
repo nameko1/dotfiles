@@ -14,6 +14,7 @@ export FZF_DEFAULT_OPTS='
 --color info:108,prompt:109,spinner:108,pointer:168,marker:168'
 
 export FZF_TMUX=1
+export LESSCHARSET=utf-8
 
 #prompt
 PROMPT='nameko:%~$ '
