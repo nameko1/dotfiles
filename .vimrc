@@ -275,6 +275,12 @@ inoremap <C-j> <Down>
 inoremap <C-k> <Up>
 inoremap <C-l> <Right>
 
+"command lineでのコマンドモードな移動
+cnoremap <C-a> <home>
+cnoremap <C-e> <end>
+cnoremap <C-h> <Left>
+cnoremap <C-l> <Right>
+
 "cntl-r で行削除
 inoremap <C-r> <ESC>0d$i<Left> 
 "cntl-u でredo
