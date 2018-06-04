@@ -66,10 +66,20 @@ endfunction
 
 
 " ROOTに存在するfileのテキスト検索かけるスクリプト
-function! s:FindFileContainText(...)
-  find -name '*.java'f
-endfunction
+" function! s:FindFileContainText(...)
+"   find -name '*.java'f
+" endfunction
 
+" マクロを編集するスクリプト
+function! s:EditMacro()
+  let l:char = input("Which macro want to edit?\n")
+  if strlen(matchstr(l:char, "^[a-z]$")) == 1
+    let l:omacro = getreg(l:char, 0)
+    let l:nmacro = input("\nEdit macro yourself\n", l:omacro)
+    :call setreg(l:char, l:nmacro)
+  en
+endfunction
+command! EditMacro :call <SID>EditMacro()
 
 function! s:GetAllTabBuf()
   let l:buflist =  []
@@ -229,6 +239,14 @@ nnoremap <C-h> <C-w><
 nnoremap <C-l> <C-w>>
 nnoremap <C-k> <C-w>-
 nnoremap <C-j> <C-w>+
+
+"mark, register参照
+nnoremap <Space>r :registers<Enter>
+nnoremap <Space>m :marks<Enter>
+
+"command line高速化！
+nnoremap : ;
+nnoremap ; :
 
 "open new tab
 nnoremap <C-p> :tabnew<Enter>
