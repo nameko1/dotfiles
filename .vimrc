@@ -72,7 +72,7 @@ function! s:FindText(...)
   let l:selectedbufs =  fzf#run({
         \ 'source': 'find . -type f | xargs grep '.l:query,
         \ 'down': '40%',
-        \ 'options': '-m --tiebreak=index --prompt "Hoges> " --ansi --extended  --reverse --tabstop=1 --query '.l:query
+        \ 'options': '-m --tiebreak=index --prompt "TextMatch> " --ansi --extended  --reverse --tabstop=1 --query '.l:query
         \ })
   if len(l:selectedbufs) == 0
     return
