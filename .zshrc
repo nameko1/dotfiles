@@ -190,3 +190,6 @@ fadd() {
     fi
   done
 }
+source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh-interactive-cd/zsh-interactive-cd.plugin.zsh
+source ~/.fzf.zsh

@@ -25,9 +25,6 @@ while getopts tvz-: o; do
         vim)
           DOT_FILES=('.vimrc' "${DOT_FILES[@]}")
           vi=true;;
-        zsh)
-          DOT_FILES=('.zshrc' "${DOT_FILES[@]}")
-          zsh=true;;
       esac;;
     t)
       DOT_FILES=('.tmux.conf' "${DOT_FILES[@]}")
@@ -35,9 +32,6 @@ while getopts tvz-: o; do
     v)
       DOT_FILES=('.vimrc' "${DOT_FILES[@]}")
       vi=true;;
-    z)
-      DOT_FILES=('.zshrc' "${DOT_FILES[@]}")
-      zsh=true;;
   esac
 done
 
@@ -49,29 +43,22 @@ do
   cp $CURRENT_DIR/$dotfile $HOME
 done
 
-if [ $zsh ]; then
-  # create local setting file
-  if [ ! -e $HOME/.zshenv ]; then
-    touch $HOME/.zshenv
-  fi
-
-  if [ ! -e $CURRENT_DIR/zsh-syntax-highlighting ]; then
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $CURRENT_DIR/zsh-syntax-highlighting
-  fi
-
-  if [ ! -e $CURRENT_DIR/zsh-interactive-cd ]; then
-    git clone https://github.com/changyuheng/zsh-interactive-cd.git $CURRENT_DIR/zsh-interactive-cd
-  fi
-
-  echo "source $CURRENT_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc
-  echo "source $CURRENT_DIR/zsh-interactive-cd/zsh-interactive-cd.plugin.zsh" >> $HOME/.zshrc
-  echo "source $HOME/.fzf.zsh" >> $HOME/.zshrc
-  # echo "source ~/.fzf/shell/key-bindings.zsh" >> $HOME/.zshrc
-fi
-
 if [ $vi ]; then
   if [ ! -e $HOME/.vim/toml ]; then
     mkdir -p $HOME/.vim/toml
   fi
   cp -f $CURRENT_DIR/dein.toml $HOME/.vim/toml/
+fi
+
+# zsh setting
+if [ ! -e $HOME/.zshenv ]; then
+  echo 'export ZDOTDIR='$CURRENT_DIR > $HOME/.zshenv
+fi
+
+if [ ! -e $HOME/.zsh-syntax-highlighting ]; then
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.zsh-syntax-highlighting
+fi
+
+if [ ! -e $HOME/.zsh-interactive-cd ]; then
+  git clone https://github.com/changyuheng/zsh-interactive-cd.git $HOME/.zsh-interactive-cd
 fi
