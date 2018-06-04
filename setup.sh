@@ -51,8 +51,8 @@ done
 
 if [ $zsh ]; then
   # create local setting file
-  if [ ! -e $HOME/.zshrc_local ]; then
-    touch $HOME/.zshrc_local
+  if [ ! -e $HOME/.zshenv ]; then
+    touch $HOME/.zshenv
   fi
 
   if [ ! -e $CURRENT_DIR/zsh-syntax-highlighting ]; then

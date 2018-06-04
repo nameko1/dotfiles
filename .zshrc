@@ -122,8 +122,6 @@ esac
 echo $DISPLAY > ~/.display.txt
 alias updis='export DISPLAY=`cat ~/.display.txt`'
 
-source ~/.zshrc_local
-
 # fzf script
 # open vi
 fe() {
