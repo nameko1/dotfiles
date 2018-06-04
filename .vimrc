@@ -59,16 +59,37 @@ function! s:VisualCharCount()
   return l:result
 endfunction
 
+"カーソル下の単語のつくファイルを検索するコマンド
 function! s:FindCurrentWord()
   let l:currentWord = expand("<cword>")
   call fzf#run(fzf#wrap({'options': '-m -q'.l:currentWord.get(g:, 'fzf_files_option', '')}))
 endfunction
 
+"文書検索するスクリプト
+function! s:FindText(...)
+  let l:query = "'".join(a:000, ' ')."'"
 
-" ROOTに存在するfileのテキスト検索かけるスクリプト
-" function! s:FindFileContainText(...)
-"   find -name '*.java'f
-" endfunction
+  let l:selectedbufs =  fzf#run({
+        \ 'source': 'find . -type f | xargs grep '.l:query,
+        \ 'down': '40%',
+        \ 'options': '-m --tiebreak=index --prompt "Hoges> " --ansi --extended  --reverse --tabstop=1 --query '.l:query
+        \ })
+  if len(l:selectedbufs) == 0
+    return
+  endif
+  
+  let l:files = []
+  for buf in l:selectedbufs
+    call add(l:files, split(buf, ':')[0])
+  endfor
+  call uniq(l:files)
+
+  for file in l:files
+    execute 'tabnew'
+    execute 'edit '.file
+  endfor
+endfunction
+command! -nargs=+ FindText :call <SID>FindText(<f-args>)
 
 " マクロを編集するスクリプト
 function! s:EditMacro()
