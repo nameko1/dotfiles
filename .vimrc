@@ -242,11 +242,19 @@ set t_Co=256
 
 "操作系
 set backspace=indent,eol,start "バックスペースで各種消せます
-set tabstop=8 "インデントをスペース4つ分に設定
+set tabstop=2 "インデントをスペース2つ分に設定
 set softtabstop=2 "tabでのスペースの数を設定
 set shiftwidth=2 "自動インデントの各段階に使われる空白の数
 set expandtab "<Tab>の制御に空白文字を用いる
 set autoindent "新しい行を開始したときに、新しい行のインデントを現在行と同じ量にする
+
+augroup IndentSetting
+  autocmd!
+  autocmd FileType java 
+        \setlocal shiftwidth=4 softtabstop=4 tabstop=4
+  autocmd FileType python
+        \setlocal shiftwidth=4 softtabstop=4 tabstop=4
+augroup END
 
 "マルチ画面
 "s + hjkl で画面移動
@@ -344,5 +352,5 @@ nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
 "OS setting
 let OSTYPE = system('uname')
 if OSTYPE == "Darwin\n"
-    nnoremap g@ :!~/Documents/lab/Tex/tex_compile.sh %<Enter>
+  nnoremap g@ :!~/Documents/lab/Tex/tex_compile.sh %<Enter>
 endif
