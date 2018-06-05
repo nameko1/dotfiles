@@ -278,9 +278,13 @@ nnoremap : ;
 nnoremap ; :
 
 "open new tab
-nnoremap <C-p> :tabnew<Enter>
+nnoremap to :tabnew<Enter>
 "close current tab
-nnoremap gw :tabclose<Enter> gT
+nnoremap te :tabclose<Enter> gT
+"move next tab
+nnoremap tn :tabnext<Enter>
+"move previous tab
+nnoremap tp :tabprevious<Enter>
 
 "fzf setting
 nnoremap si :Files<Enter>
