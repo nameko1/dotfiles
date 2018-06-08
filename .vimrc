@@ -77,7 +77,7 @@ function! s:FindText(...)
   if len(l:selectedbufs) == 0
     return
   endif
-  
+
   let l:files = []
   for buf in l:selectedbufs
     call add(l:files, split(buf, ':')[0])
@@ -126,7 +126,7 @@ function! s:FindTab()
   call s:MoveTab(substitute(matchstr(l:result[0], '^\s\?[0-9]\+'), '^\s', '',''))
 endfunction
 
-function! s:MoveTab(num) 
+function! s:MoveTab(num)
   let l:currentTab = tabpagenr()
   let l:loop = a:num - l:currentTab
   if a:num <= l:currentTab
@@ -168,7 +168,7 @@ function! s:Lines(...)
   if tabpage != 0
     call s:MoveTab(tabpage)
   else
-    execute 'silent tab split' 
+    execute 'silent tab split'
     execute 'buffer' lines[0]
   endif
 
@@ -204,6 +204,12 @@ set statusline+=%=[wc=%{b:charCounterCount}]%8l,%c%V%8P "ステータスライ�
 set showcmd "入力中のステータスに表示する
 set laststatus=2 "ステータスラインを表示するウィンドウを設定する "2:常にステータスラインを表示する
 set listchars=tab:>- "listで表示される文字のフォーマットを指定する "※デフォルト eol=$ を打ち消す意味で設定
+
+augroup HighlightSpace
+  autocmd!
+  autocmd VimEnter,WinEnter,TabEnter * highlight TrailingSpaces term=underline ctermbg=197
+  autocmd VimEnter,WinEnter,TabEnter,InsertLeave * match TrailingSpaces /\s\+$/
+augroup END
 
 " tab番号を表示する
 " Anywhere SID.
@@ -250,7 +256,7 @@ set autoindent "新しい行を開始したときに、新しい行のインデ�
 
 augroup IndentSetting
   autocmd!
-  autocmd FileType java 
+  autocmd FileType java
         \setlocal shiftwidth=4 softtabstop=4 tabstop=4
   autocmd FileType python
         \setlocal shiftwidth=4 softtabstop=4 tabstop=4
@@ -347,13 +353,13 @@ cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
 
 "cntl-r で行削除
-inoremap <C-r> <ESC>0d$i<Left> 
+inoremap <C-r> <ESC>0d$i<Left>
 "cntl-u でredo
 inoremap <C-u> <ESC>ui
 "cntl-d で一文字削除
 inoremap <C-d> <delete>
 "cntl-y でヤンク
-inoremap <C-y> <ESC>pi 
+inoremap <C-y> <ESC>pi
 "O で空白行を挿入
 nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
 
@@ -372,4 +378,3 @@ let OSTYPE = system('uname')
 if OSTYPE == "Darwin\n"
   nnoremap g@ :!~/Documents/lab/Tex/tex_compile.sh %<Enter>
 endif
-
