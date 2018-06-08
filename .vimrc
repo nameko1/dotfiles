@@ -311,6 +311,20 @@ set hlsearch "highlight matches with last search pattern
 nnoremap n nzz
 nnoremap N Nzz
 
+" 文字コード変更
+command! -bang -nargs=? Utf8
+      \ edit<bang> ++enc=utf-8 <args>
+
+command! -bang -nargs=? Sjis
+      \ edit<bang> ++enc=sjis <args>
+
+command! -bang -nargs=? Eucjp
+      \ edit<bang> ++enc=euc-jp <args>
+
+" file format変更
+command! -bang -nargs=? Unix
+      \ edit<bang> ++ff=unix <args>
+
 "編集モードでのショートカット
 
 "波括弧を自動補完
@@ -358,3 +372,4 @@ let OSTYPE = system('uname')
 if OSTYPE == "Darwin\n"
   nnoremap g@ :!~/Documents/lab/Tex/tex_compile.sh %<Enter>
 endif
+
