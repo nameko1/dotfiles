@@ -9,9 +9,12 @@ export LANG=en_US.UTF-8
 
 export FZF_DEFAULT_OPTS='
 --height=40%
---ansi --exit-0 --reverse 
+--ansi --exit-0 --reverse
 --color fg:229,bg:000,hl:84,fg+:15,bg+:239,hl+:108
---color info:108,prompt:109,spinner:108,pointer:168,marker:168'
+--color info:108,prompt:109,spinner:108,pointer:168,marker:168
+'
+
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l'
 
 export FZF_TMUX=1
 export LESSCHARSET=utf-8
@@ -38,8 +41,6 @@ autoload -Uz vcs_info
 #zstyle ':vcs_info:*' formats '(%s) [%b]'
 zstyle ':vcs_info:*' formats '[%b]'
 zstyle ':vcs_info:*' enable git hg bzr
-
-
 
 function _update_vcs_info_msg() {
   local -a messages
@@ -76,7 +77,7 @@ bindkey "^N" history-beginning-search-forward-end
 function history-all { history -E 1 }
 
 # find history
-zle     -N     fzf-history-widget
+zle     -N   fzf-history-widget
 bindkey '^R' fzf-history-widget
 
 #vi like な移動設定
@@ -143,23 +144,9 @@ fd() {
     cd "$dir"
 }
 
-
 fkill() {
-  ps -ef | sed 1d | fzf-tmux -m | awk '{print $2}' | xargs kill -${1:-9} 
+  ps -ef | sed 1d | fzf-tmux -m | awk '{print $2}' | xargs kill -${1:-9}
 }
-
-# z() {
-#   if [[ -z "$*" ]]; then
-#     cd "$(_z -l 2>&1 | fzf +s --tac | sed 's/^[0-9,.]* *//')"
-#   else
-#     _last_z_args="$@"
-#     _z "$@"
-#   fi
-# }
-#
-# zz() {
-#   cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf -q "$_last_z_args")"
-# }
 
 # fs [FUZZY PATTERN] - Select selected tmux session
 #   - Bypass fuzzy finder if there's only one match (--select-1)
@@ -172,11 +159,11 @@ fs() {
 }
 
 fadd() {
-  # valiables 
+  # valiables
   local query addfiles fzfout filenum
-  
+
   while fzfout=$(
-    git status --short | 
+    git status --short |
     awk '{if (substr($0,2,1) !~ / /) print $2}' | fzf-tmux --multi --exit-0 --expect=ctrl-d); do
     query=$(head -1 <<< "$fzfout")
     filenum=$[$(wc -l <<< "$fzfout") - 1]
@@ -190,6 +177,7 @@ fadd() {
     fi
   done
 }
+
 source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh-interactive-cd/zsh-interactive-cd.plugin.zsh
 source ~/.fzf.zsh
