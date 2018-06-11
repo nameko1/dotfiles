@@ -40,11 +40,11 @@ if has('persistent_undo')
 endif
 
 "文字数カウント関数
-augroup CharCounter
-  autocmd!
-  " autocmd BufNew,BufEnter,BufWrite,InsertLeave * call <SID>Update()
-  autocmd BufEnter,CursorMoved,CursorMovedI * call <SID>Update()
-augroup END
+" augroup CharCounter
+"   autocmd!
+"   " autocmd BufNew,BufEnter,BufWrite,InsertLeave * call <SID>Update()
+"   autocmd BufEnter,CursorMoved,CursorMovedI * call <SID>Update()
+" augroup END
 
 function! s:Update()
   let b:charCounterCount = s:VisualCharCount()
@@ -70,7 +70,7 @@ function! s:FindText(...)
   let l:query = "'".join(a:000, ' ')."'"
 
   let l:selectedbufs =  fzf#run({
-        \ 'source': 'find . -type f | xargs grep '.l:query,
+        \ 'source': 'ag '.l:query,
         \ 'down': '40%',
         \ 'options': '-m --tiebreak=index --prompt "TextMatch> " --ansi --extended  --reverse --tabstop=1 --query '.l:query
         \ })
@@ -82,7 +82,11 @@ function! s:FindText(...)
   for buf in l:selectedbufs
     call add(l:files, split(buf, ':')[0])
   endfor
-  call uniq(l:files)
+
+  if and(exists("*sort"), exists("*uniq"))
+    call sort(l:files)
+    call uniq(l:files)
+  endif
 
   for file in l:files
     execute 'tabnew'
@@ -198,12 +202,18 @@ set number "行番号を表示
 set scrolloff=5 "スクロールする際に下が見えるように
 set matchpairs& matchpairs+=<:> "対応括弧に<>を追加
 set showmatch "括弧入力時の対応する括弧を表示
-set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'} "ステータスライン左側
-set statusline+=%=[wc=%{b:charCounterCount}]%8l,%c%V%8P "ステータスライン右側
-" set statusline+=%=%8l,%c%V%8P "ステータスライン右側
+set statusline=%#PWD#%{getcwd()}/%##%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'} "ステータスライン左側
+" set statusline+=%=[wc=%{b:charCounterCount}]%8l,%c%V%8P "ステータスライン右側
+set statusline+=%=%8l,%c%V%8P "ステータスライン右側
 set showcmd "入力中のステータスに表示する
 set laststatus=2 "ステータスラインを表示するウィンドウを設定する "2:常にステータスラインを表示する
 set listchars=tab:>- "listで表示される文字のフォーマットを指定する "※デフォルト eol=$ を打ち消す意味で設定
+
+augroup HighlightStatusLine
+  autocmd!
+  autocmd ColorScheme * highlight StatusLine ctermfg=242 ctermbg=17
+  autocmd ColorScheme * highlight PWD ctermbg=242 ctermfg=189
+augroup END
 
 augroup HighlightSpace
   autocmd!

@@ -13,7 +13,7 @@ for(my $row = 0; $row < 32; ++$row) {
     $color++;
   }
   print "\n";
-} 
+}
 sub get_color {
   my ($color) = @_;
   my $number = sprintf '%3d', $color;
