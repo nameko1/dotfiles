@@ -66,6 +66,7 @@ SAVEHIST=10000
 setopt hist_ignore_all_dups
 setopt hist_no_store
 setopt hist_ignore_dups
+setopt hist_ignore_space
 setopt share_history
 setopt auto_pushd
 setopt pushd_ignore_dups

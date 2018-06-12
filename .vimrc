@@ -218,7 +218,7 @@ augroup END
 augroup HighlightSpace
   autocmd!
   autocmd VimEnter,WinEnter,TabEnter * highlight TrailingSpaces term=underline ctermbg=197
-  autocmd VimEnter,WinEnter,TabEnter,InsertLeave * match TrailingSpaces /\s\+$/
+  autocmd VimEnter,WinEnter,TabEnter,InsertLeave * match TrailingSpaces /[　 ]\+$/
 augroup END
 
 " tab番号を表示する
