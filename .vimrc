@@ -202,17 +202,31 @@ set number "行番号を表示
 set scrolloff=5 "スクロールする際に下が見えるように
 set matchpairs& matchpairs+=<:> "対応括弧に<>を追加
 set showmatch "括弧入力時の対応する括弧を表示
-set statusline=%#PWD#%{getcwd()}/%##%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'} "ステータスライン左側
+set statusline=%{NCwin(currentWin)}%#PWD#%{Cwin(currentWin)}%## "current dirを表示
+set statusline+=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'} "ステータスライン左側
 " set statusline+=%=[wc=%{b:charCounterCount}]%8l,%c%V%8P "ステータスライン右側
 set statusline+=%=%8l,%c%V%8P "ステータスライン右側
 set showcmd "入力中のステータスに表示する
 set laststatus=2 "ステータスラインを表示するウィンドウを設定する "2:常にステータスラインを表示する
 set listchars=tab:>- "listで表示される文字のフォーマットを指定する "※デフォルト eol=$ を打ち消す意味で設定
 
+function! Cwin(currentWin)
+  return a:currentWin==winnr()?getcwd().'/':''
+endfunction
+function! NCwin(currentWin)
+  return a:currentWin==winnr()?'':getcwd().'/'
+  endif
+endfunction
+
 augroup HighlightStatusLine
   autocmd!
   autocmd ColorScheme * highlight StatusLine ctermfg=242 ctermbg=17
   autocmd ColorScheme * highlight PWD ctermbg=242 ctermfg=189
+augroup END
+
+augroup CurrentWin
+  autocmd!
+  autocmd VimEnter,TabEnter,WinEnter * let currentWin=tabpagewinnr(tabpagenr())
 augroup END
 
 augroup HighlightSpace
