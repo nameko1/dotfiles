@@ -272,6 +272,11 @@ augroup IndentSetting
         \setlocal shiftwidth=4 softtabstop=4 tabstop=4
 augroup END
 
+augroup EditVimrc
+  autocmd!
+  autocmd FileType vim nnoremap ss :source %<Enter>
+augroup END
+
 "マルチ画面
 "s + hjkl で画面移動
 nnoremap sh <C-w>h
