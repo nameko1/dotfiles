@@ -44,3 +44,6 @@ if [ -z $IS_AG ];then
    yum install the_silver_searcher
   '''
 fi
+
+#vim lint
+# pip install vim-vint

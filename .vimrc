@@ -1,3 +1,5 @@
+set encoding=utf-8 "デフォルトエンコをutf-8に設定
+scriptencoding
 filetype plugin indent off
 
 let s:dein_dir = expand('~/.vim/dein')
@@ -54,14 +56,14 @@ function! s:VisualCharCount()
   let l:result = 0
   for l:linenum in range(line('v'), line('.'))
     let l:line = getline(l:linenum)
-    let l:result += strlen(substitute(l:line, ".", "x", "g"))
+    let l:result += strlen(substitute(l:line, '.', 'x', 'g'))
   endfor
   return l:result
 endfunction
 
 "カーソル下の単語のつくファイルを検索するコマンド
 function! s:FindCurrentWord()
-  let l:currentWord = expand("<cword>")
+  let l:currentWord = expand('<cword>')
   call fzf#run(fzf#wrap({'options': '-m -q'.l:currentWord.get(g:, 'fzf_files_option', '')}))
 endfunction
 
@@ -79,18 +81,18 @@ function! s:FindText(...)
   endif
 
   let l:files = []
-  for buf in l:selectedbufs
-    call add(l:files, split(buf, ':')[0])
+  for l:buf in l:selectedbufs
+    call add(l:files, split(l:buf, ':')[0])
   endfor
 
-  if and(exists("*sort"), exists("*uniq"))
+  if and(exists('*sort'), exists('*uniq'))
     call sort(l:files)
     call uniq(l:files)
   endif
 
-  for file in l:files
+  for l:file in l:files
     execute 'tabnew'
-    execute 'edit '.file
+    execute 'edit '.l:file
   endfor
 endfunction
 command! -nargs=+ FindText :call <SID>FindText(<f-args>)
@@ -98,7 +100,7 @@ command! -nargs=+ FindText :call <SID>FindText(<f-args>)
 " マクロを編集するスクリプト
 function! s:EditMacro()
   let l:char = input("Which macro want to edit?\n")
-  if strlen(matchstr(l:char, "^[a-z]$")) == 1
+  if strlen(matchstr(l:char, '^[a-z]$')) == 1
     let l:omacro = getreg(l:char, 0)
     let l:nmacro = input("\nEdit macro yourself\n", l:omacro)
     :call setreg(l:char, l:nmacro)
@@ -108,14 +110,14 @@ command! EditMacro :call <SID>EditMacro()
 
 function! s:GetAllTabBuf()
   let l:buflist =  []
-  for i in range(tabpagenr('$'))
-    let l:header = i + 1." "
-    if i < 9
-      let l:header = " ".l:header
+  for l:tabnum in range(tabpagenr('$'))
+    let l:header = l:tabnum + 1.' '
+    if l:tabnum < 9
+      let l:header = ' '.l:header
     endif
-    let l:bufnames = " "
-    for buf in tabpagebuflist(i + 1)
-      let l:bufnames .= fnamemodify(bufname(buf), ":t").", "
+    let l:bufnames =' '
+    for l:buf in tabpagebuflist(l:tabnum + 1)
+      let l:bufnames .= fnamemodify(bufname(l:buf), ':t').', '
     endfor
     call add(l:buflist, l:header.substitute(l:bufnames, ', $', '', ''))
   endfor
@@ -136,62 +138,59 @@ function! s:MoveTab(num)
   if a:num <= l:currentTab
     let l:loop = tabpagenr('$') + l:loop
   endif
-  for l in range(l:loop)
+  for l:l in range(l:loop)
     tabnext
   endfor
 endfunction
 
 function! s:Lines(...)
-  let [display_bufnames, lines] = fzf#vim#_lines(1)
-  let nth = display_bufnames ? 3 : 2
-  let [query, args] = (a:0 && type(a:1) == type('')) ?
+  let [l:display_bufnames, l:lines] = fzf#vim#_lines(1)
+  let l:nth = l:display_bufnames ? 3 : 2
+  let [l:query, l:args] = (a:0 && type(a:1) == type('')) ?
         \ [a:1, a:000[1:]] : ['', a:000]
-  let query = '--query '.shellescape(query)
+  let l:query = '--query '.shellescape(l:query)
 
-  let selectedbuf = fzf#run({
-  \ 'source':  lines,
+  let l:selectedbuf = fzf#run({
+  \ 'source':  l:lines,
   \ 'down': '40%',
-  \ 'options': '+m --tiebreak=index --prompt "Lines> " --ansi --extended --nth='.nth.'.. --reverse --tabstop=1 '.query
+  \ 'options': '+m --tiebreak=index --prompt "Lines> " --ansi --extended --nth='.l:nth.'.. --reverse --tabstop=1 '.l:query
   \})
 
-  if len(selectedbuf) == 0
+  if len(l:selectedbuf) == 0
     return
   endif
 
-  let lines = split(selectedbuf[0], '\s\+')
-  let tabpage = 0
+  let l:lines = split(l:selectedbuf[0], '\s\+')
+  let l:tabpage = 0
 
-  for i in range(tabpagenr('$'))
-    for tabbuf in tabpagebuflist(i + 1)
-      if tabbuf == lines[0]
-        let tabpage = i + 1
+  for l:tabnum in range(tabpagenr('$'))
+    for l:tabbuf in tabpagebuflist(l:tabnum + 1)
+      if l:tabbuf == l:lines[0]
+        let l:tabpage = l:tabnum + 1
       endif
     endfor
   endfor
 
-  if tabpage != 0
-    call s:MoveTab(tabpage)
+  if l:tabpage != 0
+    call s:MoveTab(l:tabpage)
   else
     execute 'silent tab split'
-    execute 'buffer' lines[0]
+    execute 'buffer' l:lines[0]
   endif
 
-  execute lines[2]
+  execute l:lines[2]
   normal! ^zz
 
 endfunction
 
-
-
 "環境設定
-set encoding=utf-8 "デフォルトエンコをutf-8に設定
 set noswapfile "swapfileを作らない
 set nowritebackup "backupfileを作らない
 set nobackup "バックアップしない
 set history=10000 "コマンド、検索パターンを記憶しておく
 
 "ビープ音を消す
-set vb t_vb=
+set visualbell t_vb=
 set novisualbell
 
 "見た目系
@@ -212,11 +211,11 @@ set listchars=tab:>- "listで表示される文字のフォーマットを指定
 
 function! Cwin(currentWin)
   return a:currentWin==winnr()?
-        \substitute(getcwd(), $HOME, '~', "").'/':''
+        \substitute(getcwd(), $HOME, '~', '').'/':''
 endfunction
 function! NCwin(currentWin)
   return a:currentWin==winnr()?
-        \'':substitute(getcwd(), $HOME, '~', "").'/'
+        \'':substitute(getcwd(), $HOME, '~', '').'/'
 endfunction
 
 augroup HighlightStatusLine
@@ -243,23 +242,23 @@ function! s:SID_PREFIX()
 endfunction
 
 " Set tabline.
-function! s:my_tabline()  "{{{
-  let s = ''
-  for i in range(1, tabpagenr('$'))
-    let bufnrs = tabpagebuflist(i)
-    let bufnr = bufnrs[tabpagewinnr(i) - 1]  " first window, first appears
-    let no = i  " display 0-origin tabpagenr.
-    let mod = getbufvar(bufnr, '&modified') ? '!' : ' '
-    let title = fnamemodify(bufname(bufnr), ':t')
-    let s .= '%'.i.'T'
-    let s .= '%#'.(i == tabpagenr() ? 'TabLineSel' : 'TabLine').'#'
-    let s .= no .':'.title
-    let s .= mod
-    let s .= '%#TabLineFill# '
+function! s:my_tabline()
+  let l:tabtitle = ''
+  for l:tabnum in range(1, tabpagenr('$'))
+    let l:bufnrs = tabpagebuflist(l:tabnum)
+    let l:bufnr = l:bufnrs[tabpagewinnr(l:tabnum) - 1]  " first window, first appears
+    let l:no = l:tabnum  " display 0-origin tabpagenr.
+    let l:mod = getbufvar(l:bufnr, '&modified') ? '!' : ' '
+    let l:title = fnamemodify(bufname(l:bufnr), ':t')
+    let l:tabtitle .= '%'.l:tabnum.'T'
+    let l:tabtitle .= '%#'.(l:tabnum == tabpagenr() ? 'TabLineSel' : 'TabLine').'#'
+    let l:tabtitle .= l:no .':'.l:title
+    let l:tabtitle .= l:mod
+    let l:tabtitle .= '%#TabLineFill# '
   endfor
-  let s .= '%#TabLineFill#%T%=%#TabLine#'
-  return s
-endfunction "}}}
+  let l:tabtitle .= '%#TabLineFill#%T%=%#TabLine#'
+  return l:tabtitle
+endfunction
 
 let &tabline = '%!'.s:SID_PREFIX().'my_tabline()'
 
@@ -394,7 +393,7 @@ inoremap <C-y> <ESC>pi
 nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
 
 "OS setting
-let OSTYPE = system('uname')
-if OSTYPE == "Darwin\n"
+let g:OSTYPE = system('uname')
+if g:OSTYPE ==# "Darwin\n"
   nnoremap g@ :!~/Documents/lab/Tex/tex_compile.sh %<Enter>
 endif
