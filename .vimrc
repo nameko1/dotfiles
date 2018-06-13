@@ -205,7 +205,7 @@ set showmatch "括弧入力時の対応する括弧を表示
 set statusline=%{NCwin(currentWin)}%#PWD#%{Cwin(currentWin)}%## "current dirを表示
 set statusline+=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'} "ステータスライン左側
 " set statusline+=%=[wc=%{b:charCounterCount}]%8l,%c%V%8P "ステータスライン右側
-set statusline+=%=%8l,%c%V%8P "ステータスライン右側
+set statusline+=%=%4{ALEGetStatusLine()}%8l,%c%V%6P "ステータスライン右側
 set showcmd "入力中のステータスに表示する
 set laststatus=2 "ステータスラインを表示するウィンドウを設定する "2:常にステータスラインを表示する
 set listchars=tab:>- "listで表示される文字のフォーマットを指定する "※デフォルト eol=$ を打ち消す意味で設定
@@ -393,16 +393,6 @@ inoremap <C-y> <ESC>pi
 "O で空白行を挿入
 nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
 
-"Syntax Check
-" inoremap <C-c> <ESC>:w<Enter>:SyntasticCheck<Enter>a
-" nnoremap <C-c> :w<Enter>:SyntasticCheck<Enter>
-
-"syntastic setting
-" let g:syntastic_enable_signs=1
-" let g:syntastic_auto_loc_list=2
-" let g:syntastic_mode_map = {'mode': 'passive'}
-" let g:syntastic_python_checkers = ['pylint']
-"
 "OS setting
 let OSTYPE = system('uname')
 if OSTYPE == "Darwin\n"
