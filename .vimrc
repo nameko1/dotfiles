@@ -211,11 +211,12 @@ set laststatus=2 "ステータスラインを表示するウィンドウを設�
 set listchars=tab:>- "listで表示される文字のフォーマットを指定する "※デフォルト eol=$ を打ち消す意味で設定
 
 function! Cwin(currentWin)
-  return a:currentWin==winnr()?getcwd().'/':''
+  return a:currentWin==winnr()?
+        \substitute(getcwd(), $HOME, '~', "").'/':''
 endfunction
 function! NCwin(currentWin)
-  return a:currentWin==winnr()?'':getcwd().'/'
-  endif
+  return a:currentWin==winnr()?
+        \'':substitute(getcwd(), $HOME, '~', "").'/'
 endfunction
 
 augroup HighlightStatusLine
