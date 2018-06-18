@@ -204,7 +204,7 @@ set showmatch "括弧入力時の対応する括弧を表示
 set statusline=%{NCwin(currentWin)}%#PWD#%{Cwin(currentWin)}%## "current dirを表示
 set statusline+=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'} "ステータスライン左側
 " set statusline+=%=[wc=%{b:charCounterCount}]%8l,%c%V%8P "ステータスライン右側
-set statusline+=%=%4{ALEGetStatusLine()}%8l,%c%V%6P "ステータスライン右側
+set statusline+=%=%{AleCount()}%8l,%c%V%6P "ステータスライン右側
 set showcmd "入力中のステータスに表示する
 set laststatus=2 "ステータスラインを表示するウィンドウを設定する "2:常にステータスラインを表示する
 set listchars=tab:>- "listで表示される文字のフォーマットを指定する "※デフォルト eol=$ を打ち消す意味で設定
@@ -216,6 +216,18 @@ endfunction
 function! NCwin(currentWin)
   return a:currentWin==winnr()?
         \'':substitute(getcwd(), $HOME, '~', '').'/'
+endfunction
+
+function! AleCount()
+  let l:output=''
+  let l:ale=ale#statusline#Count(bufnr('%'))
+  if 0!=l:ale['error']
+    let l:output=l:output.'error('.l:ale['error'].')'
+  endif
+  if 0!=l:ale['warning']
+    let l:output=l:output.'warning('.l:ale['warning'].')'
+  endif
+  return l:output
 endfunction
 
 augroup HighlightStatusLine
