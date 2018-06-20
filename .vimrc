@@ -68,34 +68,34 @@ function! s:FindCurrentWord()
 endfunction
 
 "文書検索するスクリプト
-function! s:FindText(...)
-  let l:query = "'".join(a:000, ' ')."'"
-
-  let l:selectedbufs =  fzf#run({
-        \ 'source': 'ag '.l:query,
-        \ 'down': '40%',
-        \ 'options': '-m --tiebreak=index --prompt "TextMatch> " --ansi --extended  --reverse --tabstop=1 --query '.l:query
-        \ })
-  if len(l:selectedbufs) == 0
-    return
-  endif
-
-  let l:files = []
-  for l:buf in l:selectedbufs
-    call add(l:files, split(l:buf, ':')[0])
-  endfor
-
-  if and(exists('*sort'), exists('*uniq'))
-    call sort(l:files)
-    call uniq(l:files)
-  endif
-
-  for l:file in l:files
-    execute 'tabnew'
-    execute 'edit '.l:file
-  endfor
-endfunction
-command! -nargs=+ FindText :call <SID>FindText(<f-args>)
+" function! s:FindText(...)
+"   let l:query = "'".join(a:000, ' ')."'"
+"
+"   let l:selectedbufs =  fzf#run({
+"         \ 'source': 'ag '.l:query,
+"         \ 'down': '40%',
+"         \ 'options': '-m --tiebreak=index --prompt "TextMatch> " --ansi --extended  --reverse --tabstop=1 --query '.l:query
+"         \ })
+"   if len(l:selectedbufs) == 0
+"     return
+"   endif
+"
+"   let l:files = []
+"   for l:buf in l:selectedbufs
+"     call add(l:files, split(l:buf, ':')[0])
+"   endfor
+"
+"   if and(exists('*sort'), exists('*uniq'))
+"     call sort(l:files)
+"     call uniq(l:files)
+"   endif
+"
+"   for l:file in l:files
+"     execute 'tabnew'
+"     execute 'edit '.l:file
+"   endfor
+" endfunction
+" command! -nargs=+ FindText :call <SID>FindText(<f-args>)
 
 " マクロを編集するスクリプト
 function! s:EditMacro()
@@ -222,10 +222,10 @@ function! AleCount()
   let l:output=''
   let l:ale=ale#statusline#Count(bufnr('%'))
   if 0!=l:ale['error']
-    let l:output=l:output.'error('.l:ale['error'].')'
+    let l:output=l:output.l:ale['error'].' errors'
   endif
   if 0!=l:ale['warning']
-    let l:output=l:output.'warning('.l:ale['warning'].')'
+    let l:output=l:output.l:ale['warning'].' warings'
   endif
   return l:output
 endfunction
@@ -274,8 +274,6 @@ endfunction
 
 let &tabline = '%!'.s:SID_PREFIX().'my_tabline()'
 
-
-
 syntax on "シンタックスハイライト
 "let g:hybrid_use_Xresources = 1 "hybridのおまじない
 colorscheme hybrid "色設定ファイルの指定
@@ -284,18 +282,16 @@ set t_Co=256
 
 "操作系
 set backspace=indent,eol,start "バックスペースで各種消せます
-set tabstop=2 "インデントをスペース2つ分に設定
-set softtabstop=2 "tabでのスペースの数を設定
-set shiftwidth=2 "自動インデントの各段階に使われる空白の数
+set tabstop=4 "インデントをスペース2つ分に設定
+set softtabstop=4 "tabでのスペースの数を設定
+set shiftwidth=4 "自動インデントの各段階に使われる空白の数
 set expandtab "<Tab>の制御に空白文字を用いる
 set autoindent "新しい行を開始したときに、新しい行のインデントを現在行と同じ量にする
 
 augroup IndentSetting
   autocmd!
-  autocmd FileType java
-        \setlocal shiftwidth=4 softtabstop=4 tabstop=4
-  autocmd FileType python
-        \setlocal shiftwidth=4 softtabstop=4 tabstop=4
+  autocmd FileType vim
+        \ set tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
 augroup EditVimrc
@@ -316,10 +312,6 @@ nnoremap <C-l> <C-w>>
 nnoremap <C-k> <C-w>-
 nnoremap <C-j> <C-w>+
 
-"mark, register参照
-nnoremap <Space>r :registers<Enter>
-nnoremap <Space>m :marks<Enter>
-
 "command line高速化！
 nnoremap : ;
 nnoremap ; :
@@ -333,13 +325,26 @@ nnoremap tn :tabnext<Enter>
 "move previous tab
 nnoremap tp :tabprevious<Enter>
 
-"fzf setting
-nnoremap si :Files<Enter>
-nnoremap so :Buffers<Enter>
-nnoremap sp :Commands<Enter>
+" key bind <Space>
+nnoremap <Space>a :Ag<Space>
+nnoremap <Space>b :Buffers<CR>
+nnoremap <Space>c :Commands<CR>
 
-" fzf tab
-nnoremap st :call <SID>FindTab()<Enter>
+nnoremap <Space>f :Files<CR>
+
+nnoremap <Space>m :marks<CR>
+
+nnoremap <Space>q :q<CR>
+nnoremap <Space>r :registers<CR>
+
+nnoremap <Space>s :sh<CR>
+nnoremap <Space>t :call <SID>FindTab()<CR>
+
+nnoremap <Space>w :w<CR>
+nnoremap <Space>wq :wq<CR>
+
+" " fzf tab
+" nnoremap st :call <SID>FindTab()<Enter>
 
 " fzf line
 command! -nargs=1 L call <SID>Lines(<f-args>)
