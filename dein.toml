@@ -17,6 +17,12 @@ repo = 'w0ng/vim-hybrid'
 repo = 'rhysd/clever-f.vim'
 
 [[plugins]]
+repo = 'mileszs/ack.vim'
+hook_add = '''
+let g:ackprg = "ag"
+'''
+
+[[plugins]]
 repo = 'junegunn/fzf'
 build = './install --all'
 marged = 0

@@ -67,36 +67,6 @@ function! s:FindCurrentWord()
   call fzf#run(fzf#wrap({'options': '-m -q'.l:currentWord.get(g:, 'fzf_files_option', '')}))
 endfunction
 
-"文書検索するスクリプト
-" function! s:FindText(...)
-"   let l:query = "'".join(a:000, ' ')."'"
-"
-"   let l:selectedbufs =  fzf#run({
-"         \ 'source': 'ag '.l:query,
-"         \ 'down': '40%',
-"         \ 'options': '-m --tiebreak=index --prompt "TextMatch> " --ansi --extended  --reverse --tabstop=1 --query '.l:query
-"         \ })
-"   if len(l:selectedbufs) == 0
-"     return
-"   endif
-"
-"   let l:files = []
-"   for l:buf in l:selectedbufs
-"     call add(l:files, split(l:buf, ':')[0])
-"   endfor
-"
-"   if and(exists('*sort'), exists('*uniq'))
-"     call sort(l:files)
-"     call uniq(l:files)
-"   endif
-"
-"   for l:file in l:files
-"     execute 'tabnew'
-"     execute 'edit '.l:file
-"   endfor
-" endfunction
-" command! -nargs=+ FindText :call <SID>FindText(<f-args>)
-
 " マクロを編集するスクリプト
 function! s:EditMacro()
   let l:char = input("Which macro want to edit?\n")
@@ -325,8 +295,12 @@ nnoremap tn :tabnext<Enter>
 "move previous tab
 nnoremap tp :tabprevious<Enter>
 
+" quick fix cn cp
+nnoremap <C-n> :cnext<CR>
+nnoremap <C-p> :cprevious<CR>
+
 " key bind <Space>
-nnoremap <Space>a :Ag<Space>
+nnoremap <Space>a :tabnew<CR>:Ack<Space>
 nnoremap <Space>b :Buffers<CR>
 nnoremap <Space>c :Commands<CR>
 
