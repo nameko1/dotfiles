@@ -261,7 +261,7 @@ set autoindent "新しい行を開始したときに、新しい行のインデ�
 augroup IndentSetting
   autocmd!
   autocmd FileType vim
-        \ set tabstop=2 softtabstop=2 shiftwidth=2
+        \ setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
 augroup EditVimrc
