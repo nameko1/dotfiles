@@ -306,6 +306,8 @@ nnoremap <Space>c :Commands<CR>
 
 nnoremap <Space>f :Files<CR>
 
+nnoremap <Space>h :Helptags<CR>
+
 nnoremap <Space>m :marks<CR>
 
 nnoremap <Space>q :q<CR>

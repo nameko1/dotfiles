@@ -28,6 +28,12 @@ build = './install --all'
 marged = 0
 
 [[plugins]]
+repo = 'airblade/vim-gitgutter'
+hook_add = '''
+set updatetime=250
+'''
+
+[[plugins]]
 repo = 'junegunn/fzf.vim'
 depends = 'junegunn/fzf'
 
