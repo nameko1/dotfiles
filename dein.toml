@@ -5,6 +5,23 @@ nnoremap <silent><C-e> :NERDTreeToggle<CR>
 '''
 
 [[plugins]]
+repo = 'Shougo/neosnippet.vim'
+hook_add = '''
+let g:neosnippet#enable_snipmate_campatibility = 1
+'''
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
+repo = 'Shougo/neocomplete'
+hook_add = '''
+let g:neocomplete#enable_start_up = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neosnippet#snippets_directory = '~/.vim/snippets'
+'''
+
+[[plugins]]
 repo = 'tomtom/tcomment_vim'
 
 [[plugins]]

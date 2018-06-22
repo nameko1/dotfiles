@@ -3,25 +3,23 @@
 DOT_FILES=()
 CURRENT_DIR=$(cd $(dirname $0) && pwd)
 
-DOT_FILES=('.tmux.conf' '.vimrc')
+DOT_FILES=('.tmux.conf' '.vimrc' '.zshrc')
 
 for dotfile in "${DOT_FILES[@]}"
 do
-  if [ -e $HOME/$dotfile ]; then
-    mv $HOME/$dotfile $HOME/$dotfile.old
-  fi
-  cp $CURRENT_DIR/$dotfile $HOME
+  ln -sf $CURRENT_DIR/$dotfile $HOME/$dotfile
 done
 
 # vi setting
 if [ ! -e $HOME/.vim/toml ]; then
   mkdir -p $HOME/.vim/toml
 fi
-cp -f $CURRENT_DIR/dein.toml $HOME/.vim/toml/
+ln -sf $CURRENT_DIR/dein.toml $HOME/.vim/toml/dein.toml
+ln -sf $CURRENT_DIR/mysnipptes $HOME/.vim/snippets
 
 # zsh setting
 if [ ! -e $HOME/.zshenv ]; then
-  echo 'export ZDOTDIR='$CURRENT_DIR > $HOME/.zshenv
+  touch $HOME/.zshenv
 fi
 
 if [ ! -e $HOME/.zsh-syntax-highlighting ]; then

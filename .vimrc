@@ -258,16 +258,23 @@ set shiftwidth=4 "自動インデントの各段階に使われる空白の数
 set expandtab "<Tab>の制御に空白文字を用いる
 set autoindent "新しい行を開始したときに、新しい行のインデントを現在行と同じ量にする
 
-augroup IndentSetting
+augroup EditVimrcSetting
   autocmd!
   autocmd FileType vim
         \ setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd FileType vim nnoremap ss :source %<CR>
 augroup END
 
-augroup EditVimrc
+augroup OmniCompletion
   autocmd!
-  autocmd FileType vim nnoremap ss :source %<Enter>
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 augroup END
+
+" 辞書設定
+let g:neocomplete#source#dictionary#dictionares = {
+      \ 'default': '',
+      \ 'php': ''
+      \}
 
 "マルチ画面
 "s + hjkl で画面移動
@@ -354,8 +361,11 @@ command! -bang -nargs=? Eucjp
 command! -bang -nargs=? Unix
       \ edit<bang> ++ff=unix <args>
 
-"編集モードでのショートカット
+imap <C-i>     <Plug>(neosnippet_expand_or_jump)
+smap <C-i>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-i>     <Plug>(neosnippet_expand_target)
 
+"編集モードでのショートカット
 "波括弧を自動補完
 inoremap {<Enter> {}<Left><CR><Left><ESC><S-o><Left>
 
@@ -375,14 +385,8 @@ cnoremap <C-e> <end>
 cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
 
-"cntl-r で行削除
-inoremap <C-r> <ESC>0d$i<Left>
-"cntl-u でredo
-inoremap <C-u> <ESC>ui
 "cntl-d で一文字削除
 inoremap <C-d> <delete>
-"cntl-y でヤンク
-inoremap <C-y> <ESC>pi
 "Enter で空白行を挿入
 nnoremap <CR> :<C-u>call append(expand('.'), '')<CR>j
 
