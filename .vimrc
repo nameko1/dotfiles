@@ -310,6 +310,9 @@ nnoremap <Space>h :Helptags<CR>
 
 nnoremap <Space>m :marks<CR>
 
+" カーソル下のワードをファイル名に含むファイルを検索
+nnoremap <Space>o :call <SID>FindCurrentWord()<CR>
+
 nnoremap <Space>q :q<CR>
 nnoremap <Space>r :registers<CR>
 
@@ -326,8 +329,6 @@ nnoremap <Space>wq :wq<CR>
 command! -nargs=1 L call <SID>Lines(<f-args>)
 nnoremap sr :call <SID>Lines()<Enter>
 
-" カーソル下のワードをファイル名に含むファイルを検索
-nnoremap <C-o> :call <SID>FindCurrentWord()<Enter>
 
 "検索設定
 set ignorecase "大文字/小文字の区別なく検索する
@@ -382,8 +383,8 @@ inoremap <C-u> <ESC>ui
 inoremap <C-d> <delete>
 "cntl-y でヤンク
 inoremap <C-y> <ESC>pi
-"O で空白行を挿入
-nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
+"Enter で空白行を挿入
+nnoremap <CR> :<C-u>call append(expand('.'), '')<CR>j
 
 "OS setting
 let g:OSTYPE = system('uname')
