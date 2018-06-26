@@ -3,7 +3,7 @@
 DOT_FILES=()
 CURRENT_DIR=$(cd $(dirname $0) && pwd)
 
-DOT_FILES=('.tmux.conf' '.vimrc' '.zshrc')
+DOT_FILES=('.tmux.conf' '.zshrc')
 
 for dotfile in "${DOT_FILES[@]}"
 do
@@ -11,11 +11,7 @@ do
 done
 
 # vi setting
-if [ ! -e $HOME/.vim/toml ]; then
-  mkdir -p $HOME/.vim/toml
-fi
-ln -sf $CURRENT_DIR/dein.toml $HOME/.vim/toml/dein.toml
-ln -sf $CURRENT_DIR/mysnipptes $HOME/.vim/snippets
+ln -sf $CURRENT_DIR/vimrc $HOME/.vim/rc
 
 # zsh setting
 if [ ! -e $HOME/.zshenv ]; then
