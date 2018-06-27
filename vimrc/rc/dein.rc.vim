@@ -1,3 +1,6 @@
+"*************************************
+" Plugin install by Dein
+"*************************************
 let s:dein_dir = expand('$CACHE/dein')
 
 if dein#load_state(s:dein_dir)

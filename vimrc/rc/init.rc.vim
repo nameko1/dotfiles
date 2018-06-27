@@ -1,3 +1,7 @@
+"*************************************
+" initialization
+"*************************************
+
 function! IsMac() abort
   return has('mac') || system('uname') =~? '^darwin'
 endfunction
