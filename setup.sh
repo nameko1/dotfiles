@@ -11,10 +11,13 @@ do
 done
 
 # vi setting
-ln -sf $CURRENT_DIR/vimrc/rc/ $HOME/.vim
+if [ ! -e $HOME/.vim ]; then
+  mkdir $HOME/.vim
+fi
+ln -sf $CURRENT_DIR/vimrc/rc/ $HOME/.vim/rc
 ln -sf $CURRENT_DIR/vimrc/vimrc $HOME/.vim/vimrc
-ln -sf $CURRENT_DIR/vimrc/autoload/ $HOME/.vim
-ln -sf $CURRENT_DIR/vimrc/plugin/ $HOME/.vim
+ln -sf $CURRENT_DIR/vimrc/autoload/ $HOME/.vim/autoload
+ln -sf $CURRENT_DIR/vimrc/plugin/ $HOME/.vim/plugin
 
 # zsh setting
 if [ ! -e $HOME/.zshenv ]; then
