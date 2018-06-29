@@ -25,7 +25,7 @@ repo = 'rhysd/clever-f.vim'
 [[plugins]]
 repo = 'mileszs/ack.vim'
 hook_add = '''
-  let g:ackprg = "ag"
+  let g:ackprg = "ag --silent"
 '''
 
 [[plugins]]
