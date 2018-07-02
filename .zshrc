@@ -121,6 +121,16 @@ case ${OSTYPE} in
     ;;
 esac
 
+which locate>/dev/null 2>&1
+if [ $? ];then
+  locate_type=$(locate --version | head -n 1 | cut -d' ' -f1)
+  if [ 'locate' = $locate_type ];then
+    alias udb=_locate_updatedb
+  elif [ 'mlocate' = $locate_type ];then
+    alias udb=_mlocate_updatedb
+  fi
+fi
+
 #tmux x11 setting
 echo $DISPLAY > ~/.display.txt
 alias updis='export DISPLAY=`cat ~/.display.txt`'
@@ -128,22 +138,74 @@ alias updis='export DISPLAY=`cat ~/.display.txt`'
 # fzf script
 # open vi
 fe() {
+  local dbname dbname=/tmp/db/$(echo $PWD | tr '/' '_').db
+  if [ -e $dbname ]; then
+    _fe_with_locate $dbname $1
+  else
+    _fe $1
+  fi
+}
+
+_fe() {
   local file
   file=$(fzf-tmux --query="$1" --select-1 --exit-0)
   [ -n "$file" ] && ${EDITOR:-vim} "$file"
 }
 
+_fe_with_locate(){
+  local file escpwd
+  escpwd=$(pwd | sed -e 's/\//\\\//g')
+  file=$(locate -d $1 / | sed -e 's/'$escpwd'\///g'|\
+    fzf-tmux --select-1 --exit-0 --query="$2")
+  [ -n "$file" ] && ${EDITOR:-vim} "$file"
+}
+
 fl() {
+  local dbname dbname=/tmp/db/$(echo $PWD | tr '/' '_').db
+  if [ -e $dbname ]; then
+    _fl_with_locate $dbname $1
+  else
+    _fl $1
+  fi
+}
+
+_fl() {
   file=$(fzf-tmux --query="$1" --select-1 --exit-0)
+  [ -n "$file" ] && less "$file"
+}
+
+_fl_with_locate() {
+  local file escpwd
+  escpwd=$(pwd | sed -e 's/\//\\\//g')
+  file=$(locate -d $1 / | sed -e 's/'$escpwd'\///g'|\
+    fzf-tmux --select-1 --exit-0 --query="$2")
   [ -n "$file" ] && less "$file"
 }
 
 # cd
 fd() {
+  local dbname
+  dbname=/tmp/db/$(echo $PWD | tr '/' '_').db
+  if [ -e $dbname ]; then
+    _fd_with_locate $dbname
+  else
+    _fd_with_find $1
+  fi
+}
+
+_fd_with_find() {
   local dir
   dir=$(find ${1:-*} -path '*/\.*' -prune \
     -o -type d -print 2> /dev/null | fzf-tmux +m --select-1 --query="'") &&
     cd "$dir"
+}
+
+_fd_with_locate() {
+  local dir escpwd
+  escpwd=$(pwd | sed -e 's/\//\\\//g')
+  dir=$(locate -d $1 / | sed -e 's/'$escpwd'\///g' |\
+    sed -n 's/[^/]*$//p' | sed '/^$/d' | sort | uniq |\
+    fzf-tmux +m --select-1 --query="'") && cd "$dir"
 }
 
 fkill() {
@@ -178,6 +240,20 @@ fadd() {
       print "add this file(s) -> "$addfiles
     fi
   done
+}
+
+_locate_updatedb() {
+  local dbname
+  [ ! -e /tmp/db ] && mkdir /tmp/db
+  dbname=/tmp/db/$(echo $PWD | tr '/' '_').db
+  updatedb --output=$dbname --localpaths=$PWD --prunepaths=$PRUNEPATHS
+}
+
+_mlocate_updatedb() {
+  local dbname
+  [ ! -e /tmp/db ] && mkdir /tmp/db
+  dbname=/tmp/db/$(echo $PWD | tr '/' '_').db
+  # updatedb -o $dbname -U $PWD
 }
 
 source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
