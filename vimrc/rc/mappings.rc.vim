@@ -4,11 +4,15 @@
 
 " normal mode keymapping
 " insert blank line with enter
-nnoremap <CR> :<C-u>call append(expand('.'), '')<CR>j
+nnoremap <silent><CR> :<C-u>call append(expand('.'), '')<CR>j
 
 " search word bring center
 nnoremap n nzz
 nnoremap N Nzz
+
+" add/delete indent
+nnoremap < <<
+nnoremap > >>
 
 " for move among pane
 " move to left pane
@@ -66,7 +70,7 @@ nnoremap <Space>h :Helptags<CR>
 nnoremap <Space>m :marks<CR>
 
 " カーソル下のワードをファイル名に含むファイルを検索
-nnoremap <Space>o :call myfunc#FindCurrentWord()<CR>
+nnoremap <silent><Space>o :call myfunc#FindCurrentWord()<CR>
 
 " <Space>q close buffer
 nnoremap <Space>q :q<CR>
@@ -76,7 +80,7 @@ nnoremap <Space>r :registers<CR>
 " <Space>s start shell
 nnoremap <Space>s :sh<CR>
 " <Space>t open tab list
-nnoremap <Space>t :call myfunc#FindTab()<CR>
+nnoremap <silent><Space>t :call myfunc#FindTab()<CR>
 
 " <Space>w write buffer to file
 nnoremap <Space>w :w<CR>

@@ -1,6 +1,6 @@
 [[plugins]]
 repo = 'Shougo/neosnippet.vim'
-depends = ['neosnippet-snippets']
+depends = ['neosnippet-snippets', 'context_filetype.vim']
 on_event = 'InsertCharPre'
 hook_source = '''
   let g:neosnippet#snippets_directory = '~/.vim/rc/snippets'
@@ -10,9 +10,28 @@ hook_source = '''
   xmap <C-i>     <Plug>(neosnippet_expand_target)
 '''
 
+[[plugins]] # toml syntax
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
 [[plugins]]
 repo = 'majutsushi/tagbar'
 on_if = ' "" !=# findfile(".tags", ".;") '
 hook_source = '''
-  nnoremap <silent><C-q> :TagbarToggle<CR>
+  nnoremap <silent>tt :TagbarToggle<CR>
+'''
+
+[[plugins]]
+repo = 'osyo-manga/vim-precious'
+depends = ['context_filetype.vim']
+on_event = 'CursorMoved'
+
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+hook_source = '''
+"  if !exists('g:context_filetype#filetypes')
+"    let g:context_filetype#filetypes = {}
+"  endif
+" g:context_filetype#filetypes.hoge =[{'filetype': , 'start': ,'end':}]
+ let g:context_filetype#search_offset = 20
 '''

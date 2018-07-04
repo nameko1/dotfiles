@@ -1,9 +1,8 @@
 "*************************************
 " Options
 "*************************************
-set encoding=utf-8 "デフォルトエンコをutf-8に設定
+set encoding=utf-8
 scriptencoding
-filetype plugin indent off
 
 " setting undo file
 if has('persistent_undo')
@@ -19,20 +18,17 @@ set nobackup
 set history=10000
 
 " search setting
-set ignorecase
-set smartcase
-" search wrap around the end of the file
-set wrapscan
-"highlight matches with last search pattern
-set hlsearch
+set ignorecase                      " no distinguish lowercase and uppercase when search
+set smartcase                       " if search word contain uppercase, serve as noignorecase
+set wrapscan                        " search wrap around the end of the file
+set hlsearch                        " highlight matches with last search pattern
 
 " silent bell
 set visualbell t_vb=
 set novisualbell
 
 " vitual setting
-" show the cursor position
-set ruler
+set ruler                           " show the cursor position
 set list
 set title
 " show line number
@@ -45,12 +41,17 @@ set backspace=indent,eol,start
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set expandtab
-set autoindent
+set expandtab                       " insert some space (set softtabstop) when enter <Tab>
+set autoindent                      " automation indent
+set autowrite                       " autowrite when open other file
 
 let &tabline = '%!'.myfunc#SID_PREFIX().'myfunc#my_tabline()'
 
 " color setting
+colorscheme hybrid
+set background=dark
+set t_Co=256
+
 highlight TrailingSpaces term=underline ctermbg=197
 augroup MyHighlight
   autocmd!
@@ -59,15 +60,13 @@ augroup MyHighlight
   autocmd VimEnter,WinEnter,TabEnter,InsertLeave * match TrailingSpaces /[　 ]\+$/
 augroup END
 
-colorscheme hybrid
-set background=dark
-set t_Co=256
-
-augroup EditVimrcSetting
+augroup EditSetting
   autocmd!
   autocmd FileType vim
         \ setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd FileType vim nnoremap ss :source %<CR>
+  autocmd FileType zsh
+        \ setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
 set tags=.tags;$HOME

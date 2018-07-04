@@ -7,7 +7,7 @@ endfunction
 augroup MyAutoCmd
 autocmd!
 " setting filetype
-" autocmd FileType,Syntax,BufNewFile,BufNew,BufRead *.hoge setft='hoge'
+autocmd BufNewFile,BufRead *.blade.php setfiletype html
 augroup END
 
 if has('vim_starting')

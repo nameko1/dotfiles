@@ -45,5 +45,17 @@ if [ -z $IS_AG ];then
   '''
 fi
 
+IS_CTAGS=`which ctags`
+if [ -z $IS_AG ];then
+  echo '''
+  Please, Install ctags
+
+  Ubuntu:
+   apt install exuberant-ctags
+  CentOS:
+   yum install ctags
+  '''
+fi
+
 #vim lint
 # pip install vim-vint
