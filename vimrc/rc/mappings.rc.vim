@@ -40,13 +40,13 @@ nnoremap : ;
 nnoremap ; :
 
 "open new tab
-nnoremap to :tabnew<Enter>
+nnoremap <silent>to :tabnew<CR>
 "close current tab
-nnoremap te :tabclose<Enter> gT
+nnoremap <silent>te :tabclose<CR> gT
 "move next tab
-nnoremap tl :tabnext<Enter>
+nnoremap <silent>tl :tabnext<CR>
 "move previous tab
-nnoremap th :tabprevious<Enter>
+nnoremap <silent>th :tabprevious<CR>
 
 " quick fix cn cp
 nnoremap <C-n> :cnext<CR>

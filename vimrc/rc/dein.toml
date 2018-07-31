@@ -12,6 +12,9 @@ repo = 'Shougo/neocomplete'
 
 [[plugins]]
 repo = 'tomtom/tcomment_vim'
+hook_add = '''
+  let g:tcomment_opleader1 = '<Space>g'
+'''
 
 [[plugins]]
 repo = 'tomasr/molokai'
