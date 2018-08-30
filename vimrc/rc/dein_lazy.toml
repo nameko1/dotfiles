@@ -29,9 +29,9 @@ on_event = 'CursorMoved'
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
 hook_source = '''
-"  if !exists('g:context_filetype#filetypes')
-"    let g:context_filetype#filetypes = {}
-"  endif
-" g:context_filetype#filetypes.hoge =[{'filetype': , 'start': ,'end':}]
- let g:context_filetype#search_offset = 20
+  if !exists('g:context_filetype#filetypes')
+    let g:context_filetype#filetypes = {}
+  endif
+  let g:context_filetype#filetypes.html =[{'filetype': 'smarty', 'start': '{' ,'end':'}'}]
+  let g:context_filetype#search_offset = 20
 '''
