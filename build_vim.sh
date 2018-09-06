@@ -34,4 +34,10 @@ install_package_ubuntu() {
     sudo apt install -y git build-essential ncurses-dev lua5.2 lua5.2-dev
 }
 
+if [ -e /etc/redhat-release ]; then
+    install_package_centos
+elif [ -e /etc/lsb-release ]; then
+    install_package_ubuntu
+fi
+
 build_vim
