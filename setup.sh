@@ -18,6 +18,7 @@ ln -sf $CURRENT_DIR/vimrc/rc/ $HOME/.vim/rc
 ln -sf $CURRENT_DIR/vimrc/vimrc $HOME/.vim/vimrc
 ln -sf $CURRENT_DIR/vimrc/autoload/ $HOME/.vim/autoload
 ln -sf $CURRENT_DIR/vimrc/plugin/ $HOME/.vim/plugin
+ln -sf $CURRENT_DIR/vimrc/dicts/ $HOME/.vim/dicts
 
 # zsh setting
 if [ ! -e $HOME/.zshenv ]; then
