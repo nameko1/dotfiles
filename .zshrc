@@ -4,6 +4,16 @@
 #emacs likeな操作になる
 bindkey -e
 
+fpath=("$HOME/.zfunctions" $fpath)
+
+# zplugin
+source "${HOME}/.zplugin/bin/zplugin.zsh"
+autoload -Uz _zplugin
+
+if [[ "${+_comps}" == 1 ]];then
+  _comps[zplugin] = _zplugin
+fi
+
 # export LANG=ja_JP.UTF-8
 export LANG=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
@@ -21,12 +31,11 @@ export FZF_TMUX=1
 export LESSCHARSET=utf-8
 
 #prompt
-PROMPT='nameko:%~$ '
+# PROMPT='nameko:%~$ '
 if [[ -n $VIMRUNTIME  ]];then
-    PROMPT='vimshell:%~$ '
+    RPROMPT='%F{red}vimshell'
 fi
 PROMPT2="%_%% "
-RPROMPT=""
 SPROMPT="%r is correct? [n,y,a,e]: "
 
 #いい感じのコマンド補完
@@ -35,30 +44,22 @@ compinit
 setopt correct
 setopt auto_list
 
+# cd
+setopt AUTO_PUSHD
+setopt autocd
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
+
 #vcs_info loading
 autoload -Uz add-zsh-hook
 autoload -Uz vcs_info
 
-#zstyle ':vcs_info:*' formats '(%s) [%b]'
-zstyle ':vcs_info:*' formats '[%b]'
-zstyle ':vcs_info:*' enable git hg bzr
-
-function _update_vcs_info_msg() {
-  local -a messages
-  local prompt
-  LANG=en_US.UTF-8 vcs_info
-
-  if [[ -z ${vcs_info_msg_0_} ]]; then
-    # vcs_info で何も取得していない場合はプロンプトを表示しない
-    prompt=""
-  else
-    [[ -n "$vcs_info_msg_0_" ]] && messages+=( "%F{green}${vcs_info_msg_0_}%f" )
-    prompt="${(j: :)messages}"
-  fi
-
-  RPROMPT="$prompt"
-}
-add-zsh-hook precmd _update_vcs_info_msg
+# zstyle ':vcs_info:*' formats '[%b]'
+# zstyle ':vcs_info:*' enable git hg bzr
+#
+autoload -U promptinit; promptinit
+prompt pure
 
 #histoy
 HISTFILE=~/.zsh_history
@@ -100,6 +101,7 @@ alias -g gr='|grep --color'
 alias -g le='|less'
 alias -g xg='|xargs grep --color'
 alias restart='exec $SHELL -l'
+# alias ssh='sshrc'
 
 # alias vi='/usr/bin/vim'
 # export EDITOR=/usr/bin/vim
@@ -121,76 +123,29 @@ case ${OSTYPE} in
     ;;
 esac
 
-which locate>/dev/null 2>&1
-if [ $? ];then
-  locate_type=$(locate --version | head -n 1 | cut -d' ' -f1)
-  if [ 'locate' = $locate_type ];then
-    alias udb=_locate_updatedb
-  elif [ 'mlocate' = $locate_type ];then
-    alias udb=_mlocate_updatedb
-  fi
-fi
-
 #tmux x11 setting
 echo $DISPLAY > ~/.display.txt
 alias updis='export DISPLAY=`cat ~/.display.txt`'
 
 # fzf script
 # open vi
+
 fe() {
-  local dbname dbname=/tmp/db/$(echo $PWD | tr '/' '_').db
-  if [ -e $dbname ]; then
-    _fe_with_locate $dbname $1
-  else
-    _fe $1
-  fi
-}
-
-_fe() {
   local file
-  file=$(fzf-tmux --query="$1" --select-1 --exit-0)
-  [ -n "$file" ] && ${EDITOR:-vim} "$file"
-}
-
-_fe_with_locate(){
-  local file escpwd
-  escpwd=$(pwd | sed -e 's/\//\\\//g')
-  file=$(locate -d $1 / | sed -e 's/'$escpwd'\///g'|\
-    fzf-tmux --select-1 --exit-0 --query="$2")
+  file=$(find ${1:-*} -path '*/\.*' -prune \
+    -o -type f -print 2> /dev/null | fzf-tmux +m --query="$1" --select-1 --exit-0) &&
   [ -n "$file" ] && ${EDITOR:-vim} "$file"
 }
 
 fl() {
-  local dbname dbname=/tmp/db/$(echo $PWD | tr '/' '_').db
-  if [ -e $dbname ]; then
-    _fl_with_locate $dbname $1
-  else
-    _fl $1
-  fi
-}
-
-_fl() {
-  file=$(fzf-tmux --query="$1" --select-1 --exit-0)
-  [ -n "$file" ] && less "$file"
-}
-
-_fl_with_locate() {
-  local file escpwd
-  escpwd=$(pwd | sed -e 's/\//\\\//g')
-  file=$(locate -d $1 / | sed -e 's/'$escpwd'\///g'|\
-    fzf-tmux --select-1 --exit-0 --query="$2")
+  file=$(find ${1:-*} -path '*/\.*' -prune \
+    -o -type f -print 2> /dev/null | fzf-tmux +m --query="$1" --select-1 --exit-0) &&
   [ -n "$file" ] && less "$file"
 }
 
 # cd
 fd() {
-  local dbname
-  dbname=/tmp/db/$(echo $PWD | tr '/' '_').db
-  if [ -e $dbname ]; then
-    _fd_with_locate $dbname
-  else
-    _fd_with_find $1
-  fi
+  _fd_with_find $1
 }
 
 _fd_with_find() {
@@ -198,14 +153,6 @@ _fd_with_find() {
   dir=$(find ${1:-*} -path '*/\.*' -prune \
     -o -type d -print 2> /dev/null | fzf-tmux +m --select-1 --query="'") &&
     cd "$dir"
-}
-
-_fd_with_locate() {
-  local dir escpwd
-  escpwd=$(pwd | sed -e 's/\//\\\//g')
-  dir=$(locate -d $1 / | sed -e 's/'$escpwd'\///g' |\
-    sed -n 's/[^/]*$//p' | sed '/^$/d' | sort | uniq |\
-    fzf-tmux +m --select-1 --query="'") && cd "$dir"
 }
 
 fkill() {
@@ -221,6 +168,23 @@ fs() {
     fzf --query="$1" --select-1 --exit-0) &&
     tmux switch-client -t "$session"
 }
+
+fch() {
+  local branch
+  branch=$(git branch --format='%(refname)' | cut -d / -f 3- | fzf-tmux --multi --exit-0)
+  git checkout ${branch}
+}
+
+# d() {
+#   local dir num
+#   num=$(dirs -v | fzf-tmux +m --exit-0 | cut -f1)
+#   echo $num
+#   if [ $num -n ];then
+#     return
+#   fi
+#   dir=$(dirs -vl | grep -e ^$num | cut -f2)
+#   cd "$dir"
+# }
 
 fadd() {
   # valiables
@@ -242,20 +206,13 @@ fadd() {
   done
 }
 
-_locate_updatedb() {
-  local dbname
-  [ ! -e /tmp/db ] && mkdir /tmp/db
-  dbname=/tmp/db/$(echo $PWD | tr '/' '_').db
-  updatedb --output=$dbname --localpaths=$PWD --prunepaths=$PRUNEPATHS
-}
-
-_mlocate_updatedb() {
-  local dbname
-  [ ! -e /tmp/db ] && mkdir /tmp/db
-  dbname=/tmp/db/$(echo $PWD | tr '/' '_').db
-  # updatedb -o $dbname -U $PWD
-}
-
-source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.zsh-interactive-cd/zsh-interactive-cd.plugin.zsh
+zplugin light "zsh-users/zsh-syntax-highlighting"
+zplugin light "changyuheng/zsh-interactive-cd"
+zplugin snippet --command \
+  'https://raw.githubusercontent.com/Russell91/sshrc/master/sshrc'
+# zplugin ice as"program" from"gh-r" id-as"fzf"
+# zplugin load "junegunn/fzf-bin"
 source ~/.fzf.zsh
+
+# export PYENV_ROOT="$HOME/.pyenv"
+# eval "$(pyenv init -)"
