@@ -91,6 +91,8 @@ bindkey "^O" clear-screen
 #単語移動設定
 bindkey "^B" backward-word
 bindkey "^W" forward-word
+#単語除削設定
+bindkey "^F" kill-word
 
 #alias
 alias rm='rm -i'

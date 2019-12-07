@@ -67,6 +67,8 @@ augroup EditSetting
   autocmd FileType vim nnoremap ss :source %<CR>
   autocmd FileType zsh
         \ setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd FileType json
+        \ setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
 set tags=.tags;$HOME
