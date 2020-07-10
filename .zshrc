@@ -7,12 +7,12 @@ bindkey -e
 fpath=("$HOME/.zfunctions" $fpath)
 
 # zplugin
-source "${HOME}/.zplugin/bin/zplugin.zsh"
+source "${HOME}/.zinit/bin/zplugin.zsh"
 autoload -Uz _zplugin
 
-if [[ "${+_comps}" == 1 ]];then
-  _comps[zplugin] = _zplugin
-fi
+# if [[ "${+_comps}" == 1 ]];then
+#   _comps[zplugin] = _zplugin
+# fi
 
 # export LANG=ja_JP.UTF-8
 export LANG=en_US.UTF-8
@@ -210,11 +210,12 @@ fadd() {
 
 zplugin light "zsh-users/zsh-syntax-highlighting"
 zplugin light "changyuheng/zsh-interactive-cd"
-zplugin snippet --command \
-  'https://raw.githubusercontent.com/Russell91/sshrc/master/sshrc'
+# zplugin snippet --command \
+#   'https://raw.githubusercontent.com/Russell91/sshrc/master/sshrc'
 # zplugin ice as"program" from"gh-r" id-as"fzf"
 # zplugin load "junegunn/fzf-bin"
 source ~/.fzf.zsh
 
 # export PYENV_ROOT="$HOME/.pyenv"
 # eval "$(pyenv init -)"
+### End of Zinit's installer chunk

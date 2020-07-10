@@ -17,18 +17,19 @@ if [ ! -e $HOME/.vim ]; then
   mkdir -p $HOME/.vim/dicts
   mkdir -p $HOME/.vim/plugin
 fi
-ln -sf $CURRENT_DIR/vimrc/rc/dein.rc.vim $HOME/.vim/rc/dein.rc.vim
-ln -sf $CURRENT_DIR/vimrc/rc/dein.toml $HOME/.vim/rc/dein.toml
-ln -sf $CURRENT_DIR/vimrc/rc/dein_lazy.toml $HOME/.vim/rc/dein_lazy.toml
-ln -sf $CURRENT_DIR/vimrc/rc/init.rc.vim $HOME/.vim/rc/init.rc.vim
-ln -sf $CURRENT_DIR/vimrc/rc/mappings.rc.vim $HOME/.vim/rc/mappings.rc.vim
-ln -sf $CURRENT_DIR/vimrc/rc/options.rc.vim $HOME/.vim/rc/options.rc.vim
-ln -sf $CURRENT_DIR/vimrc/rc/rc.vim $HOME/.vim/rc/rc.vim
-ln -sf $CURRENT_DIR/vimrc/rc/statusline.rc.vim $HOME/.vim/rc/statusline.rc.vim
-ln -sf $CURRENT_DIR/vimrc/vimrc $HOME/.vim/vimrc
-ln -sf $CURRENT_DIR/vimrc/autoload/myfunc.vim $HOME/.vim/autoload/myfunc.vim
-ln -sf $CURRENT_DIR/vimrc/plugin/neocomplete.rc.vim $HOME/.vim/plugin/neocomplete.rc.vim
-ln -sf $CURRENT_DIR/vimrc/dicts/tex.dict $HOME/.vim/dicts/tex.dict
+cp -r vimrc/ $HOME/.vim
+# ln -sf $CURRENT_DIR/vimrc/rc/dein.rc.vim $HOME/.vim/rc/dein.rc.vim
+# ln -sf $CURRENT_DIR/vimrc/rc/dein.toml $HOME/.vim/rc/dein.toml
+# ln -sf $CURRENT_DIR/vimrc/rc/dein_lazy.toml $HOME/.vim/rc/dein_lazy.toml
+# ln -sf $CURRENT_DIR/vimrc/rc/init.rc.vim $HOME/.vim/rc/init.rc.vim
+# ln -sf $CURRENT_DIR/vimrc/rc/mappings.rc.vim $HOME/.vim/rc/mappings.rc.vim
+# ln -sf $CURRENT_DIR/vimrc/rc/options.rc.vim $HOME/.vim/rc/options.rc.vim
+# ln -sf $CURRENT_DIR/vimrc/rc/rc.vim $HOME/.vim/rc/rc.vim
+# ln -sf $CURRENT_DIR/vimrc/rc/statusline.rc.vim $HOME/.vim/rc/statusline.rc.vim
+# ln -sf $CURRENT_DIR/vimrc/vimrc $HOME/.vim/vimrc
+# ln -sf $CURRENT_DIR/vimrc/autoload/myfunc.vim $HOME/.vim/autoload/myfunc.vim
+# ln -sf $CURRENT_DIR/vimrc/plugin/neocomplete.rc.vim $HOME/.vim/plugin/neocomplete.rc.vim
+# ln -sf $CURRENT_DIR/vimrc/dicts/tex.dict $HOME/.vim/dicts/tex.dict
 
 # zsh setting
 if [ ! -e $HOME/.zshenv ]; then
@@ -42,9 +43,9 @@ if [ ! -e ${HOME}/.zfunctions/prompt_pure_setup ];then
   ln -s "${CURRENT_DIR}/pure/async.zsh" "${HOME}/.zfunctions/async"
 fi
 
-if [ ! -e ${HOME}/.zplugin ]; then
+if [ ! -e ${HOME}/.zinit ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
-    zcompile ${HOME}/.zplugin/bin/zplugin.zsh
+    zcompile ${HOME}/.zinit/bin/zplugin.zsh
 fi
 
 # if [ ! -e ${HOME}/.sshrc.d ];then
