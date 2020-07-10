@@ -12,12 +12,12 @@ done
 
 # vi setting
 if [ ! -e $HOME/.vim ]; then
-  mkdir -p $HOME/.vim/rc
-  mkdir -p $HOME/.vim/autoload
-  mkdir -p $HOME/.vim/dicts
-  mkdir -p $HOME/.vim/plugin
+  cp -r vimrc/ $HOME/.vim
+  # mkdir -p $HOME/.vim/rc
+  # mkdir -p $HOME/.vim/autoload
+  # mkdir -p $HOME/.vim/dicts
+  # mkdir -p $HOME/.vim/plugin
 fi
-cp -r vimrc/ $HOME/.vim
 # ln -sf $CURRENT_DIR/vimrc/rc/dein.rc.vim $HOME/.vim/rc/dein.rc.vim
 # ln -sf $CURRENT_DIR/vimrc/rc/dein.toml $HOME/.vim/rc/dein.toml
 # ln -sf $CURRENT_DIR/vimrc/rc/dein_lazy.toml $HOME/.vim/rc/dein_lazy.toml
