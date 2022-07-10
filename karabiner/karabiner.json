@@ -14,6 +14,141 @@
                     "basic.to_if_held_down_threshold_milliseconds": 500
                 },
                 "rules": [
+                  {
+                    "description": "Mouse cursor move using Karabiner's functions",
+                    "extra_descriptions": [
+                      "Mouse move using Karabiner's functions"
+                    ],
+                    "manipulators": [
+                      {
+                        "type": "basic",
+                        "from": {
+                          "key_code": "h",
+                          "modifiers": {
+                            "mandatory": [
+                              "control",
+                              "shift"
+                            ]
+                          }
+                        },
+                        "to": [
+                          {
+                            "mouse_key": {
+                              "x": -1000
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "basic",
+                        "from": {
+                          "key_code": "j",
+                          "modifiers": {
+                            "mandatory": [
+                              "control",
+                              "shift"
+                            ]
+                          }
+                        },
+                        "to": [
+                          {
+                            "mouse_key": {
+                              "y": 1000
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "basic",
+                        "from": {
+                          "key_code": "k",
+                          "modifiers": {
+                            "mandatory": [
+                              "control",
+                              "shift"
+                            ]
+                          }
+                        },
+                        "to": [
+                          {
+                            "mouse_key": {
+                              "y": -1000
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "basic",
+                        "from": {
+                          "key_code": "l",
+                          "modifiers": {
+                            "mandatory": [
+                              "control",
+                              "shift"
+                            ]
+                          }
+                        },
+                        "to": [
+                          {
+                            "mouse_key": {
+                              "x": 1000
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "basic",
+                        "from": {
+                          "key_code": "n",
+                          "modifiers": {
+                            "mandatory": [
+                              "control",
+                              "shift"
+                            ]
+                          }
+                        },
+                        "to": [
+                          {
+                            "pointing_button": "button1"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "basic",
+                        "from": {
+                          "key_code": "m",
+                          "modifiers": {
+                            "mandatory": [
+                              "control",
+                              "shift"
+                            ]
+                          }
+                        },
+                        "to": [
+                          {
+                            "pointing_button": "button3"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "basic",
+                        "from": {
+                          "key_code": "p",
+                          "modifiers": {
+                            "mandatory": [
+                              "control",
+                              "shift"
+                            ]
+                          }
+                        },
+                        "to": [
+                          {
+                            "pointing_button": "button2"
+                          }
+                        ]
+                      }
+                    ]
+                  },
                     {
                         "description": "Change Control + h/j/k/l to Arrows",
                         "manipulators": [
