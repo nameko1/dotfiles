@@ -16,6 +16,26 @@
                 },
                 "rules": [
                   {
+                    "description": "screenshot",
+                    "manipulators": {
+                      "type": "basic",
+                      "from": {
+                        "key_code": "4",
+                        "modifiers": [
+                          "command",
+                          "shift"
+                        ]
+                      },
+                      "to": {
+                        "key_code": "4",
+                        "modifiers": [
+                          "option",
+                          "shift"
+                        ]
+                      }
+                    }
+                  },
+                  {
                     "description": "Mouse cursor move using Karabiner's functions",
                     "extra_descriptions": [
                       "Mouse move using Karabiner's functions"
@@ -27,7 +47,7 @@
                           "key_code": "h",
                           "modifiers": {
                             "mandatory": [
-                              "control",
+                              "command",
                               "shift"
                             ]
                           }
@@ -46,7 +66,7 @@
                           "key_code": "j",
                           "modifiers": {
                             "mandatory": [
-                              "control",
+                              "command",
                               "shift"
                             ]
                           }
@@ -65,7 +85,7 @@
                           "key_code": "k",
                           "modifiers": {
                             "mandatory": [
-                              "control",
+                              "command",
                               "shift"
                             ]
                           }
@@ -84,7 +104,7 @@
                           "key_code": "l",
                           "modifiers": {
                             "mandatory": [
-                              "control",
+                              "command",
                               "shift"
                             ]
                           }
@@ -103,7 +123,7 @@
                           "key_code": "n",
                           "modifiers": {
                             "mandatory": [
-                              "control",
+                              "command",
                               "shift"
                             ]
                           }
@@ -120,7 +140,7 @@
                           "key_code": "m",
                           "modifiers": {
                             "mandatory": [
-                              "control",
+                              "command",
                               "shift"
                             ]
                           }
@@ -137,7 +157,7 @@
                           "key_code": "p",
                           "modifiers": {
                             "mandatory": [
-                              "control",
+                              "command",
                               "shift"
                             ]
                           }
