@@ -7,7 +7,7 @@ bindkey -e
 fpath=("$HOME/.zfunctions" $fpath)
 
 # zplugin
-source "${HOME}/.zplugin/bin/zplugin.zsh"
+source "${HOME}/.zinit/bin/zplugin.zsh"
 autoload -Uz _zplugin
 
 # if [[ "${+_comps}" == 1 ]];then
