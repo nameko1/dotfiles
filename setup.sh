@@ -46,6 +46,9 @@ fi
 if [ ! -e ${HOME}/.zinit ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
     zcompile ${HOME}/.zinit/bin/zplugin.zsh
+    # from y mac
+    # source ${HOME}/.zinit/bin/zplugin.zsh
+    # zplugin self-update
 fi
 
 # if [ ! -e ${HOME}/.sshrc.d ];then
