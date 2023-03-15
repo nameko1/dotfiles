@@ -7,6 +7,7 @@ CURRENT_DIR=$(cd $(dirname $0) && pwd)
 
 # install vim source code
 git submodule update -i
+#brew install luajit lua
 
 build_vim() {
     cd $CURRENT_DIR/vim
@@ -41,3 +42,10 @@ elif [ -e /etc/lsb-release ]; then
 fi
 
 build_vim
+
+
+# old version vim install with brew
+# ver=8.2.5150
+# brew tap-new sta/taps
+# brew extract vim sta/taps --version $ver
+# brew install sta/taps/vim@$ver

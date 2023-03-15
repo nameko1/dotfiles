@@ -123,6 +123,9 @@ cnoremap <C-h> <Left>
 " <C-l> move to right
 cnoremap <C-l> <Right>
 
+" <C-d> delete on cursor char
+cnoremap <C-d> <delete>
+
 " only mac keymapping
 if IsMac()
   nnoremap g@ :!~/Documents/lab/Tex/tex_compile.sh %<Enter>

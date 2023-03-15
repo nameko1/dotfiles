@@ -15,8 +15,6 @@ if [ ! -e $HOME/.vim ]; then
   cp -r vimrc/ $HOME/.vim
   # mkdir -p $HOME/.vim/rc
   # mkdir -p $HOME/.vim/autoload
-  # mkdir -p $HOME/.vim/dicts
-  # mkdir -p $HOME/.vim/plugin
 fi
 # ln -sf $CURRENT_DIR/vimrc/rc/dein.rc.vim $HOME/.vim/rc/dein.rc.vim
 # ln -sf $CURRENT_DIR/vimrc/rc/dein.toml $HOME/.vim/rc/dein.toml
@@ -28,8 +26,6 @@ fi
 # ln -sf $CURRENT_DIR/vimrc/rc/statusline.rc.vim $HOME/.vim/rc/statusline.rc.vim
 # ln -sf $CURRENT_DIR/vimrc/vimrc $HOME/.vim/vimrc
 # ln -sf $CURRENT_DIR/vimrc/autoload/myfunc.vim $HOME/.vim/autoload/myfunc.vim
-# ln -sf $CURRENT_DIR/vimrc/plugin/neocomplete.rc.vim $HOME/.vim/plugin/neocomplete.rc.vim
-# ln -sf $CURRENT_DIR/vimrc/dicts/tex.dict $HOME/.vim/dicts/tex.dict
 
 # zsh setting
 if [ ! -e $HOME/.zshenv ]; then
@@ -43,22 +39,10 @@ if [ ! -e ${HOME}/.zfunctions/prompt_pure_setup ];then
   ln -s "${CURRENT_DIR}/pure/async.zsh" "${HOME}/.zfunctions/async"
 fi
 
-if [ ! -e ${HOME}/.zinit ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
-    zcompile ${HOME}/.zinit/bin/zplugin.zsh
-    # from y mac
-    # source ${HOME}/.zinit/bin/zplugin.zsh
-    # zplugin self-update
+if [ ! -e ${HOME}/.local/share/zinit ]; then
+    bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
+    #zcompile ${HOME}/.zinit/bin/zplugin.zsh
 fi
-
-# if [ ! -e ${HOME}/.sshrc.d ];then
-#     mkdir -p ${HOME}/.sshrc.d
-#     ln -sf $CURRENT_DIR/vimrc/rc/ $HOME/.vim/rc
-#     ln -sf $CURRENT_DIR/vimrc/vimrc $HOME/.vim/vimrc
-#     ln -sf $CURRENT_DIR/vimrc/autoload/ $HOME/.vim/autoload
-#     ln -sf $CURRENT_DIR/vimrc/plugin/ $HOME/.vim/plugin
-#     ln -sf $CURRENT_DIR/vimrc/dicts/ $HOME/.vim/dicts
-# fi
 
 IS_AG=`which ag`
 if [ -z $IS_AG ];then

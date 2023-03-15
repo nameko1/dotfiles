@@ -17,23 +17,29 @@
                 "rules": [
                   {
                     "description": "screenshot",
-                    "manipulators": {
-                      "type": "basic",
-                      "from": {
-                        "key_code": "4",
-                        "modifiers": [
-                          "command",
-                          "shift"
-                        ]
-                      },
-                      "to": {
-                        "key_code": "4",
-                        "modifiers": [
-                          "option",
-                          "shift"
-                        ]
+                    "manipulators": [
+                      {
+                        "type": "basic",
+                        "from": {
+                          "key_code": "4",
+                          "modifiers": {
+                            "mandatory": [
+                              "command",
+                              "shift"
+                            ]
+                          }
+                        },
+                        "to": {
+                          "key_code": "4",
+                          "modifiers": {
+                            "mandatory": [
+                              "option",
+                              "shift"
+                            ]
+                          }
+                        }
                       }
-                    }
+                    ]
                   },
                   {
                     "description": "Mouse cursor move using Karabiner's functions",

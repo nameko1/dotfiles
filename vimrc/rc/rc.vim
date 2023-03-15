@@ -19,6 +19,8 @@ call s:source_rc('dein.rc.vim')
 
 call s:source_rc('statusline.rc.vim')
 
+call s:source_rc('ddc.rc.vim')
+
 syntax enable
 filetype plugin indent on
 

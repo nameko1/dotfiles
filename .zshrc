@@ -7,7 +7,8 @@ bindkey -e
 fpath=("$HOME/.zfunctions" $fpath)
 
 # zplugin
-source "${HOME}/.zinit/bin/zplugin.zsh"
+#source "${HOME}/.zinit/bin/zplugin.zsh"
+source "${HOME}/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zplugin
 
 # if [[ "${+_comps}" == 1 ]];then
@@ -218,4 +219,14 @@ source ~/.fzf.zsh
 
 # export PYENV_ROOT="$HOME/.pyenv"
 # eval "$(pyenv init -)"
+### End of Zinit's installer chunk
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
+
 ### End of Zinit's installer chunk
