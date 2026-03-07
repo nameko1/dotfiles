@@ -10,6 +10,14 @@ do
   ln -sf $CURRENT_DIR/$dotfile $HOME/$dotfile
 done
 
+# nvim
+if [ ! -e $HOME/.config/nvim ]; then
+  mkdir $HOME/.config
+  cd $HOME/.config
+  ln -s $CURRENT_DIR/.nvim ./
+  cd $CURRENT_DIR
+fi
+
 # zsh setting
 if [ ! -e $HOME/.zshenv ]; then
   touch $HOME/.zshenv
