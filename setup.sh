@@ -10,23 +10,6 @@ do
   ln -sf $CURRENT_DIR/$dotfile $HOME/$dotfile
 done
 
-# vi setting
-if [ ! -e $HOME/.vim ]; then
-  cp -r vimrc/ $HOME/.vim
-  # mkdir -p $HOME/.vim/rc
-  # mkdir -p $HOME/.vim/autoload
-fi
-# ln -sf $CURRENT_DIR/vimrc/rc/dein.rc.vim $HOME/.vim/rc/dein.rc.vim
-# ln -sf $CURRENT_DIR/vimrc/rc/dein.toml $HOME/.vim/rc/dein.toml
-# ln -sf $CURRENT_DIR/vimrc/rc/dein_lazy.toml $HOME/.vim/rc/dein_lazy.toml
-# ln -sf $CURRENT_DIR/vimrc/rc/init.rc.vim $HOME/.vim/rc/init.rc.vim
-# ln -sf $CURRENT_DIR/vimrc/rc/mappings.rc.vim $HOME/.vim/rc/mappings.rc.vim
-# ln -sf $CURRENT_DIR/vimrc/rc/options.rc.vim $HOME/.vim/rc/options.rc.vim
-# ln -sf $CURRENT_DIR/vimrc/rc/rc.vim $HOME/.vim/rc/rc.vim
-# ln -sf $CURRENT_DIR/vimrc/rc/statusline.rc.vim $HOME/.vim/rc/statusline.rc.vim
-# ln -sf $CURRENT_DIR/vimrc/vimrc $HOME/.vim/vimrc
-# ln -sf $CURRENT_DIR/vimrc/autoload/myfunc.vim $HOME/.vim/autoload/myfunc.vim
-
 # zsh setting
 if [ ! -e $HOME/.zshenv ]; then
   touch $HOME/.zshenv
@@ -68,6 +51,3 @@ if [ -z $IS_AG ];then
    yum install ctags
   '''
 fi
-
-#vim lint
-# pip install vim-vint
